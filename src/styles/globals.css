@@ -6,18 +6,26 @@
 }
 
 @theme {
-  --color-background: #0f0f10;
-  --color-surface: #1a1a1a;
-  --color-elevated: #2a2a2a;
+  --color-background: #07111c;
+  --color-surface: #0a1929;
+  --color-surface-hover: #0e2238;
+  --color-elevated: #122c44;
+
+  --color-accent: #67a8ff;
+  --color-light-accent: #b8d9ff;
+
+  --color-border: #163954;
+  --color-infobox-bg: #091a24;
+  --color-infobox-border: #0b2f34;
+
   --color-primary: #ffffff;
-  --color-secondary: #f2f2f2;
-  --color-muted: #929699;
-  --color-accent: #3c87fa;
-  --color-success: #31dbb1;
-  --color-error: #fc4a71;
-  --color-warning: #ffdc30;
-  --color-border: #2a2a2a;
-  --color-border-active: #3c87fa;
+  --color-secondary: #c7d0db;
+  --color-dark: #020508;
+  --color-muted: #8694a1;
+
+  --color-success: #2fd9a3;
+  --color-error: #f24868;
+  --color-warning: #fcd94c;
 }
 
 @layer base {
@@ -45,7 +53,7 @@ html {
 }
 
 body {
-  @apply text-primary font-sora bg-background;
+  @apply text-primary font-inter bg-background;
 }
 
 input::-webkit-outer-spin-button,
