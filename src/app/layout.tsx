@@ -1,14 +1,19 @@
 import React from "react";
 
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 
 import Web3Provider from "@/components/Web3Provider/Web3Provider";
 
-import "@/styles/globals.css";
+import "../styles/globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sora = Sora({
+  variable: "--font-sora",
+  subsets: ["latin"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -24,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} antialiased`}>
+      <body className={`${sora.variable} ${inter.variable} antialiased`}>
         <Web3Provider>{children}</Web3Provider>
       </body>
     </html>
