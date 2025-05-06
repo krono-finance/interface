@@ -15,7 +15,7 @@ interface MainLayoutProps {
 }
 
 const MainLayout = ({ children, className }: MainLayoutProps) => {
-  const { isMobile } = useWindowSize();
+  const { isTablet } = useWindowSize();
 
   return (
     <div className="h-full w-full">
@@ -27,7 +27,7 @@ const MainLayout = ({ children, className }: MainLayoutProps) => {
           "grid-rows-[max-content_auto_max-content]",
         )}
       >
-        {isMobile ? <MobileNavbar /> : <Navbar />}
+        {isTablet ? <MobileNavbar /> : <Navbar />}
         <div className="flex w-full justify-center">
           <main className={classNames("w-full px-4", className)}>
             {children}
