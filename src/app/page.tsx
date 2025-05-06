@@ -1,9 +1,14 @@
-import { ConnectButton } from "@xellar/kit";
+"use client";
+import { useEffect } from "react";
+
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div>
-      <ConnectButton />
-    </div>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/market");
+  }, [router]);
+
+  return <></>;
 }
