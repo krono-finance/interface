@@ -29,24 +29,24 @@ const Button = ({
       onClick={!disabled ? onClick : undefined}
       disabled={disabled}
       className={classNames(
-        "m-2 inline-flex items-center justify-center rounded-3xl px-4 py-3",
+        "inline-flex items-center justify-center rounded-3xl px-4 py-3",
         "text-sm font-semibold transition-colors",
         "focus:outline-none",
         {
           // Primary variant
-          "text-background bg-accent hover:bg-accent/80":
+          "text-dark bg-accent hover:bg-accent/80":
             variant === "primary" && !disabled,
 
           // Secondary variant
-          "border-accent/30 text-light-accent hover:bg-accent/30 border":
+          "border-elevated hover:bg-surface-hover bg-surface border":
             variant === "secondary" && !disabled,
 
           // Tertiary variant
-          "hover:border-accent/40 text-light-accent bg-accent/30 border border-transparent":
+          "border-border hover:bg-surface-hover border":
             variant === "tertiary" && !disabled,
 
           // Ghost variant
-          "text-accent hover:border-accent/40 hover:bg-accent/10 border border-transparent bg-transparent":
+          "hover:border-elevated hover:bg-surface-hover border border-transparent bg-transparent":
             variant === "ghost" && !disabled,
 
           "bg-accent/60 text-muted cursor-not-allowed": disabled,

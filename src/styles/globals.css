@@ -18,8 +18,9 @@
   --color-infobox-bg: #091a24;
   --color-infobox-border: #0b2f34;
 
-  --color-primary: #ffffff;
-  --color-secondary: #c7d0db;
+  --color-primary: #f0f8ff;
+  --color-tertiary: #7f8fa1;
+  --color-secondary: #a1acb8;
   --color-dark: #020508;
   --color-muted: #8694a1;
 
@@ -64,4 +65,8 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.kRDCsY:hover {
+  @apply !bg-elevated;
 }
