@@ -4,11 +4,14 @@ import Image from "next/image";
 
 import { ConnectButton } from "@xellar/kit";
 
+import useWindowSize from "@/hooks/useWindowSize";
 import { transformAddress } from "@/lib/utils";
 
 import Button from "../Button/Button";
 
 const CustomConnectButton = () => {
+  const { isMobile } = useWindowSize();
+
   return (
     <ConnectButton.Custom>
       {({
@@ -44,14 +47,14 @@ const CustomConnectButton = () => {
                       width={18}
                       height={18}
                     />
-                    {chain.name}
+                    {!isMobile && chain.name}
                   </Button>
                   <Button
                     onClick={openProfileModal}
                     variant="tertiary"
                     className="!py-2"
                   >
-                    {transformAddress(6, 4, account.address)}
+                    {transformAddress(isMobile ? 4 : 6, 4, account.address)}
                   </Button>
                 </div>
               )
@@ -64,49 +67,3 @@ const CustomConnectButton = () => {
 };
 
 export default CustomConnectButton;
-
-{
-  /* <div
-              className="bg-surface text-primary border-border hover:bg-surface-hover flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-2 transition"
-              onClick={
-                !isConnected ? openConnectModal : openProfileModal // or customize further
-              }
-            >
-              {!isConnected ? (
-                <span className="text-sm font-medium">Connect</span>
-              ) : (
-                <> */
-}
-{
-  /* Network icon */
-}
-{
-  /* <div
-                    className="flex h-5 w-5 items-center justify-center overflow-hidden rounded-full"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openChainModal();
-                    }}
-                  >
-                    <Image
-                      src={"/logos/krono.svg"}
-                      alt={"Test"}
-                      className="h-full w-full object-cover"
-                      width={20}
-                      height={20}
-                    />
-                  </div> */
-}
-
-{
-  /* Wallet Address */
-}
-{
-  /* <span className="text-sm font-medium">
-                    {account?.address.slice(0, 6)}...
-                    {account?.address.slice(-4)}
-                  </span>
-                </>
-              )}
-            </div> */
-}
