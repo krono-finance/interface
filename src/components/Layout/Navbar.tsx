@@ -26,8 +26,8 @@ export const menus = [
     link: "/stake",
   },
   {
-    name: "Onramp",
-    link: "/onramp",
+    name: "Leverage",
+    link: "/leverage",
   },
 ];
 
@@ -48,13 +48,13 @@ const Navbar = () => {
             />
           </Link>
 
-          <ul className="flex items-center gap-2.5">
+          <ul className="flex items-center gap-1.5">
             {menus.map((menu) => (
               <li key={menu.name}>
                 <Link
                   href={menu.link}
                   className={classNames(
-                    "rounded-lg px-4 py-2.5 text-sm font-semibold",
+                    "rounded-lg px-3.5 py-2.5 text-sm font-semibold",
                     "hover:text-primary hover:bg-elevated",
                     pathname.includes(menu.link)
                       ? "text-primary bg-elevated"
