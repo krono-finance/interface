@@ -1,3 +1,5 @@
+import classNames from "classnames";
+
 import { TableHeaderCellProps } from "./types";
 
 const TableHeaderCell = ({
@@ -9,7 +11,7 @@ const TableHeaderCell = ({
   customHeader,
 }: TableHeaderCellProps) => {
   return (
-    <th scope="col" style={style} className={className}>
+    <th scope="col" style={style} className={classNames("px-6", className)}>
       {customHeader ? (
         customHeader()
       ) : (

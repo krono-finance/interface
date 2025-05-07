@@ -39,8 +39,8 @@ export const POOL_TOKENS: {
     interestRateStrategyAddress: "0xecd44a2A08F3cedd1CCf09c28756861EE28F630e",
   },
   weth: {
-    name: "WETH",
-    symbol: "WETH",
+    name: "Ethereum",
+    symbol: "ETH",
     image: "/tokens/weth.svg",
     address: "0x4200000000000000000000000000000000000006",
     kTokenName: "Krono Lisk WETH",
@@ -55,7 +55,7 @@ export const POOL_TOKENS: {
     interestRateStrategyAddress: "0x63D41662484d665B657Fe7Ccec19B17540C75cf1",
   },
   wbtc: {
-    name: "WBTC",
+    name: "Wrapped BTC",
     symbol: "WBTC",
     image: "/tokens/wbtc.svg",
     address: "0xee6cB032769B7B76aaB233f7E068903B573249E5",
@@ -71,7 +71,7 @@ export const POOL_TOKENS: {
     interestRateStrategyAddress: "0x47359a64E686b1664Daa4Fc4b97D288cde4d7381",
   },
   usdc: {
-    name: "USDC",
+    name: "USD Coin",
     symbol: "USDC",
     image: "/tokens/usdc.svg",
     address: "0xddb0c6b66Cf2BaCB6FB835a74c33be8ad728e596",
@@ -87,7 +87,7 @@ export const POOL_TOKENS: {
     interestRateStrategyAddress: "0x2cabcc96e0F478F13738364192c6C3c9EA80451e",
   },
   usdt: {
-    name: "USDT",
+    name: "Tether",
     symbol: "USDT",
     image: "/tokens/usdt.svg",
     address: "0x814c5aeA0dcEaF6b334499d080630071F0A336EF",

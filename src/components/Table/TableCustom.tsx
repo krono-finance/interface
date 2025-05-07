@@ -13,9 +13,11 @@ const CustomTable = <T extends Record<string, any>>({
   wrapperClassName,
   containerClassName,
   trHeaderClassName,
-  bodyClassName,
+  theadClassName,
+  tbodyClassName,
   onRowClick,
   includeThead = true,
+  link,
 }: CustomTableProps<T>) => {
   const getRowKey = (row: T) => {
     if (Array.isArray(rowKey)) {
@@ -27,7 +29,7 @@ const CustomTable = <T extends Record<string, any>>({
   return (
     <div
       className={classNames(
-        "border-borderColor overflow-hidden rounded-xl border text-sm md:text-base",
+        "border-elevated overflow-hidden rounded-xl border text-sm md:text-base",
         wrapperClassName,
       )}
     >
@@ -39,10 +41,10 @@ const CustomTable = <T extends Record<string, any>>({
       >
         <table className={className}>
           {includeThead && (
-            <thead>
+            <thead className={theadClassName}>
               <tr
                 className={classNames(
-                  "bg-surface text-secondary font-medium",
+                  "text-tertiary font-medium",
                   trHeaderClassName,
                 )}
                 style={{ height: headerHeight }}
@@ -61,22 +63,34 @@ const CustomTable = <T extends Record<string, any>>({
               </tr>
             </thead>
           )}
-          <tbody className={bodyClassName}>
+          <tbody className={tbodyClassName}>
             {data.length > 0 &&
               data.map((row) => (
                 <tr
                   onClick={() => onRowClick && onRowClick(row)}
                   key={getRowKey(row)}
                   style={{ height: rowHeight }}
-                  className="border-elevated hover:bg-surface-hover cursor-pointer border-b last:border-b-0"
+                  className="border-elevated hover:bg-elevated cursor-pointer border-b last:border-b-0"
                 >
                   {columns.map(({ key, width, className, customRender }) => (
                     <td
                       key={key}
                       style={{ minWidth: width }}
-                      className={className}
+                      className={classNames("px-6", className)}
                     >
-                      {customRender ? customRender(row[key], row) : row[key]}
+                      {link ? (
+                        <a href={`${link}/${row.address}`}>
+                          {customRender
+                            ? customRender(row[key], row)
+                            : row[key]}
+                        </a>
+                      ) : (
+                        <>
+                          {customRender
+                            ? customRender(row[key], row)
+                            : row[key]}
+                        </>
+                      )}
                     </td>
                   ))}
                 </tr>

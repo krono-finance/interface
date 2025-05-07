@@ -42,7 +42,9 @@ export interface CustomTableProps<T extends Record<string, any>> {
   rowHeight?: number;
   headerHeight?: number;
   trHeaderClassName?: string;
-  bodyClassName?: string;
+  theadClassName?: string;
+  tbodyClassName?: string;
   onRowClick?(row: T): void;
   includeThead?: boolean;
+  link?: string;
 }

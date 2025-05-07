@@ -40,9 +40,7 @@
 
 * {
   scroll-behavior: smooth;
-}
 
-html {
   &::-webkit-scrollbar {
     width: 4px;
   }
@@ -50,8 +48,7 @@ html {
     @apply bg-transparent;
   }
   &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    @apply bg-gray-700;
+    @apply bg-elevated rounded-sm;
   }
 }
 

@@ -29,7 +29,7 @@ const MainLayout = ({ children, className }: MainLayoutProps) => {
       >
         {isTablet ? <MobileNavbar /> : <Navbar />}
         <div className="flex w-full justify-center">
-          <main className={classNames("w-full px-4", className)}>
+          <main className={classNames("mx-4 w-full", className)}>
             {children}
           </main>
         </div>
