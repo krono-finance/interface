@@ -17,7 +17,7 @@ const MarketsHeader = () => {
   ];
 
   return (
-    <header className="my-16 items-center justify-between space-y-2 md:flex">
+    <header className="xs:mb-12 my-8 items-center justify-between space-y-4 md:flex lg:my-16">
       <div className="">
         <h1 className="text-[32px] font-bold">Markets</h1>
         <p className="text-tertiary">
@@ -33,7 +33,7 @@ const MarketsHeader = () => {
             <div className="text-tertiary text-[15px] sm:text-base">
               {data.title}
             </div>
-            <p className="space-x-0.5 text-lg sm:text-xl">
+            <p className="xs:text-xl space-x-0.5 text-lg">
               <span className="text-tertiary">$</span>
               <span>{data.value}</span>
             </p>

@@ -117,11 +117,11 @@ const MarketsTable = () => {
   ];
 
   return (
-    <div>
+    <div className="mb-12 sm:mb-20">
       <CustomTable
         columns={marketColumns}
         data={poolList ?? []}
-        wrapperClassName="max-w-[calc(100vw-2rem)] xl:max-w-[calc(100vw-34px)]"
+        wrapperClassName="max-w-[calc(100vw-2rem)] lg:max-w-[calc(100vw-60px)]"
         rowKey="name"
         headerHeight={52}
         theadClassName="bg-surface text-[13px]"
