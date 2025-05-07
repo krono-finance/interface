@@ -27,6 +27,8 @@
   --color-success: #2fd9a3;
   --color-error: #f24868;
   --color-warning: #fcd94c;
+
+  --breakpoint-xs: 480px;
 }
 
 @layer base {

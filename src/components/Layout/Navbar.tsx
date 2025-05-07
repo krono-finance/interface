@@ -10,8 +10,8 @@ import CustomConnectButton from "../Web3Provider/CustomConnectButton";
 
 export const menus = [
   {
-    name: "Market",
-    link: "/market",
+    name: "Markets",
+    link: "/markets",
   },
   {
     name: "Dashboard",
