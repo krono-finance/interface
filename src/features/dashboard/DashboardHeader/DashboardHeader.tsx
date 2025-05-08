@@ -2,19 +2,31 @@ import React from "react";
 
 import Image from "next/image";
 
-const MarketsHeader = () => {
-  const marketsData = [
+const DashboardHeader = () => {
+  const headerData = [
     {
-      title: "Total supply",
-      value: "122.35M",
+      title: "Net worth",
+      value: (
+        <p className="xs:text-xl space-x-0.5 text-lg">
+          <span className="text-tertiary">$</span>
+          <span>22.55K</span>
+        </p>
+      ),
     },
     {
-      title: "Total borrow",
-      value: "57.10M",
+      title: "Net APY",
+      value: (
+        <p className="xs:text-xl space-x-0.5 text-lg">
+          <span>2.55</span>
+          <span className="text-tertiary">%</span>
+        </p>
+      ),
     },
     {
-      title: "Total available",
-      value: "65.25M",
+      title: "Health factor",
+      value: (
+        <p className="xs:text-xl text-warning space-x-0.5 text-lg">1.55</p>
+      ),
     },
   ];
 
@@ -30,23 +42,20 @@ const MarketsHeader = () => {
             className="size-12 xl:size-13"
           />
           <div className="pt-1">
-            <h1 className="text-2xl font-semibold sm:text-3xl">Lisk Market</h1>
-            <p className="text-tertiary text-sm sm:text-[15px]">
-              Lend and borrow assets with competitive yields.
-            </p>
+            <h1 className="text-2xl font-semibold sm:text-3xl">
+              Your Portfolio
+            </h1>
+            <p className="text-tertiary text-sm sm:text-[15px]">Lisk</p>
           </div>
         </div>
       </div>
       <div className="xs:flex xs:flex-wrap grid grid-cols-2 items-center gap-x-10 gap-y-5 font-semibold">
-        {marketsData.map((data) => (
+        {headerData.map((data) => (
           <div key={data.title} className="space-y-1">
             <div className="text-tertiary text-[15px] sm:text-base">
               {data.title}
             </div>
-            <p className="xs:text-xl space-x-0.5 text-lg">
-              <span className="text-tertiary">$</span>
-              <span>{data.value}</span>
-            </p>
+            {data.value}
           </div>
         ))}
       </div>
@@ -54,4 +63,4 @@ const MarketsHeader = () => {
   );
 };
 
-export default MarketsHeader;
+export default DashboardHeader;
