@@ -15,6 +15,7 @@ const MarketsTable = () => {
       label: "Asset",
       width: 240,
       headerClassName: "text-left",
+      className: "justify-start",
       customRender(value, rowData) {
         const token = rowData as IToken;
 
@@ -103,6 +104,7 @@ const MarketsTable = () => {
       label: "Utilization",
       width: 198,
       headerClassName: "text-right",
+      className: "justify-end",
       customRender() {
         return (
           <div className="flex items-center justify-end gap-2">

@@ -69,27 +69,36 @@ const CustomTable = <T extends Record<string, any>>({
                 <tr
                   onClick={() => onRowClick && onRowClick(row)}
                   key={getRowKey(row)}
-                  style={{ height: rowHeight }}
                   className="border-elevated hover:bg-elevated cursor-pointer border-b last:border-b-0"
                 >
                   {columns.map(({ key, width, className, customRender }) => (
-                    <td
-                      key={key}
-                      style={{ minWidth: width }}
-                      className={classNames("px-6", className)}
-                    >
+                    <td key={key}>
                       {link ? (
                         <a href={`${link}/${row.address}`}>
-                          {customRender
-                            ? customRender(row[key], row)
-                            : row[key]}
+                          <div
+                            style={{ minWidth: width, height: rowHeight }}
+                            className={classNames(
+                              "flex items-center justify-center px-6",
+                              className,
+                            )}
+                          >
+                            {customRender
+                              ? customRender(row[key], row)
+                              : row[key]}
+                          </div>
                         </a>
                       ) : (
-                        <>
+                        <div
+                          style={{ minWidth: width }}
+                          className={classNames(
+                            "flex items-center justify-center px-6",
+                            className,
+                          )}
+                        >
                           {customRender
                             ? customRender(row[key], row)
                             : row[key]}
-                        </>
+                        </div>
                       )}
                     </td>
                   ))}
