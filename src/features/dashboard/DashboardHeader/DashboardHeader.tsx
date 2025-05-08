@@ -45,7 +45,9 @@ const DashboardHeader = () => {
             <h1 className="text-2xl font-semibold sm:text-3xl">
               Your Portfolio
             </h1>
-            <p className="text-tertiary text-sm sm:text-[15px]">Lisk</p>
+            <p className="text-tertiary ml-1 text-sm sm:text-[15px]">
+              Lisk Sepolia
+            </p>
           </div>
         </div>
       </div>
