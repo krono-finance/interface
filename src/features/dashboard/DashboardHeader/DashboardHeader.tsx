@@ -5,14 +5,32 @@ import Image from "next/image";
 const DashboardHeader = () => {
   const headerData = [
     {
-      title: "Net worth",
+      title: "Supply",
       value: (
         <p className="xs:text-xl space-x-0.5 text-lg">
           <span className="text-tertiary">$</span>
-          <span>22.55K</span>
+          <span>42.45K</span>
         </p>
       ),
     },
+    {
+      title: "Debt",
+      value: (
+        <p className="xs:text-xl space-x-0.5 text-lg">
+          <span className="text-tertiary">$</span>
+          <span>20.10K</span>
+        </p>
+      ),
+    },
+    // {
+    //   title: "Net worth",
+    //   value: (
+    //     <p className="xs:text-xl space-x-0.5 text-lg">
+    //       <span className="text-tertiary">$</span>
+    //       <span>22.55K</span>
+    //     </p>
+    //   ),
+    // },
     {
       title: "Net APY",
       value: (
@@ -42,12 +60,8 @@ const DashboardHeader = () => {
             className="size-12 xl:size-13"
           />
           <div className="pt-1">
-            <h1 className="text-2xl font-semibold sm:text-3xl">
-              Your Portfolio
-            </h1>
-            <p className="text-tertiary ml-1 text-sm sm:text-[15px]">
-              Lisk Sepolia
-            </p>
+            <h1 className="text-2xl font-semibold sm:text-3xl">Dashboard</h1>
+            <p className="text-tertiary text-sm sm:text-[15px]">Lisk Sepolia</p>
           </div>
         </div>
       </div>
