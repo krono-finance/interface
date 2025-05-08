@@ -1,5 +1,7 @@
 import React from "react";
 
+import Image from "next/image";
+
 const MarketsHeader = () => {
   const marketsData = [
     {
@@ -17,19 +19,27 @@ const MarketsHeader = () => {
   ];
 
   return (
-    <header className="xs:mb-12 my-8 items-center justify-between space-y-4 md:flex lg:my-16">
+    <header className="xs:mb-12 my-8 space-y-5 lg:mt-16 lg:flex lg:items-center lg:justify-between">
       <div className="">
-        <h1 className="text-[32px] font-bold">Markets</h1>
-        <p className="text-tertiary">
-          Lend and borrow assets with competitive yields.
-        </p>
+        <div className="flex items-center gap-2">
+          <Image
+            src={"/logos/lisk-profile-w.svg"}
+            alt="Lisk"
+            width={64}
+            height={64}
+            className="size-12 xl:size-14"
+          />
+          <div className="pt-2">
+            <h1 className="text-2xl font-bold sm:text-3xl">Lisk Market</h1>
+            <p className="text-tertiary text-sm sm:text-base">
+              Lend and borrow assets with competitive yields.
+            </p>
+          </div>
+        </div>
       </div>
-      <div className="xs:flex xs:flex-wrap grid grid-cols-2 items-center gap-2 font-semibold">
+      <div className="xs:flex xs:flex-wrap grid grid-cols-2 items-center gap-x-6 gap-y-5 font-semibold">
         {marketsData.map((data) => (
-          <div
-            key={data.title}
-            className="border-elevated space-y-1 rounded-lg border px-3 py-2 md:text-end"
-          >
+          <div key={data.title} className="space-y-1 lg:text-end">
             <div className="text-tertiary text-[15px] sm:text-base">
               {data.title}
             </div>
