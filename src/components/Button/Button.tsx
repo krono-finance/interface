@@ -34,7 +34,7 @@ const Button = ({
         "focus:outline-none",
         {
           // Primary variant
-          "text-dark bg-accent hover:bg-accent/80":
+          "text-dark bg-accent hover:bg-accent/80 border border-transparent":
             variant === "primary" && !disabled,
 
           // Secondary variant
@@ -49,7 +49,8 @@ const Button = ({
           "hover:border-elevated hover:bg-surface-hover border border-transparent bg-transparent":
             variant === "ghost" && !disabled,
 
-          "bg-accent/60 text-muted cursor-not-allowed": disabled,
+          "bg-accent/60 text-muted cursor-not-allowed border border-transparent":
+            disabled,
         },
         className,
       )}
