@@ -9,9 +9,12 @@ import {
 import classNames from "classnames";
 import { XIcon } from "lucide-react";
 
-export interface ModalProps {
+export interface BaseModalProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+export interface ModalProps extends BaseModalProps {
   children?: ReactNode;
   title?: string;
   id?: string;
@@ -42,7 +45,11 @@ const Modal: React.FC<ModalProps> = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className={classNames("fixed inset-0 backdrop-blur-[4px]")} />
+          <div
+            className={classNames(
+              "bg-dark/10 fixed inset-0 backdrop-blur-[4px]",
+            )}
+          />
         </TransitionChild>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -60,21 +67,21 @@ const Modal: React.FC<ModalProps> = ({
                 onClick={(e) => e.stopPropagation()}
                 className={classNames(
                   "mx-[15px] my-4 w-full transform overflow-hidden rounded-lg px-5 transition-all",
-                  "bg-surface border-border max-w-[345px] border-2 md:max-w-[600px]",
+                  "bg-surface border-elevated max-w-[345px] border md:max-w-[600px]",
                   className && className,
                 )}
               >
                 {title ? (
                   <div
                     className={classNames(
-                      "border-border flex h-[60px] items-center justify-between border-b-2 md:h-[72px]",
+                      "border-elevated flex h-[60px] items-center justify-between border-b-2 md:h-[72px]",
                       titleClassName,
                     )}
                   >
                     <div className="flex items-center gap-x-1">
                       <span
                         className={classNames(
-                          "text-base font-semibold text-white md:text-2xl",
+                          "text-lg font-semibold md:text-2xl",
                         )}
                       >
                         {title}
@@ -83,7 +90,7 @@ const Modal: React.FC<ModalProps> = ({
 
                     {xButton && (
                       <XIcon
-                        className="text-secondary h-6 w-6 cursor-pointer md:h-7 md:w-7"
+                        className="text-secondary hover:text-primary h-6 w-6 cursor-pointer md:h-7 md:w-7"
                         onClick={onClose}
                       />
                     )}
@@ -91,7 +98,7 @@ const Modal: React.FC<ModalProps> = ({
                 ) : (
                   <XIcon
                     className={classNames(
-                      "text-secondary absolute top-5 right-5 z-20 h-6 w-6 cursor-pointer",
+                      "text-secondary hover:text-primary absolute top-5 right-5 z-20 h-6 w-6 cursor-pointer",
                       "md:h-7 md:w-7",
                     )}
                     onClick={onClose}
