@@ -23,7 +23,7 @@ const DashboardTabs = () => {
         tabListClassName="sm:w-[500px] w-full"
         tabPanelsClassName="py-6"
       >
-        <TabPanel as="div" className="grid grid-cols-2 gap-5">
+        <TabPanel as="div" className="grid gap-5 xl:grid-cols-2">
           <SuppliedPositions />
           <BorrowedPositions />
         </TabPanel>

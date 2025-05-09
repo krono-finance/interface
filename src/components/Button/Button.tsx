@@ -38,7 +38,7 @@ const Button = ({
             variant === "primary" && !disabled,
 
           // Secondary variant
-          "border-elevated hover:bg-surface-hover bg-surface border":
+          "border-elevated hover:bg-surface-hover bg-elevated border":
             variant === "secondary" && !disabled,
 
           // Tertiary variant

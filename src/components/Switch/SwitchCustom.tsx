@@ -14,7 +14,7 @@ const SwitchCustom = ({ checked, onChange }: SwitchCustomProps) => {
       checked={checked}
       onChange={onChange}
       className={classNames(
-        "group bg-elevated relative flex w-14 cursor-pointer rounded-full",
+        "group bg-elevated relative flex w-12 cursor-pointer rounded-full",
         "p-1 ease-in-out focus:not-data-focus:outline-none",
         "data-checked:bg-accent data-focus:outline data-focus:outline-white",
       )}
@@ -23,7 +23,7 @@ const SwitchCustom = ({ checked, onChange }: SwitchCustomProps) => {
         aria-hidden="true"
         className={classNames(
           "pointer-events-none inline-block size-5 translate-x-0 rounded-full",
-          "bg-primary shadow-lg ring-0 transition duration-200 ease-in-out group-data-checked:translate-x-7",
+          "bg-primary shadow-lg ring-0 transition duration-200 ease-in-out group-data-checked:translate-x-5",
         )}
       />
     </Switch>

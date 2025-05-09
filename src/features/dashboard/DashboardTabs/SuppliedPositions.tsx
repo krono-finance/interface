@@ -11,7 +11,7 @@ const SuppliedPositions = () => {
   const [checked, setChecked] = useState(false);
 
   return (
-    <div className="border-elevated overflow-hidden rounded-xl border">
+    <div className="border-elevated h-fit overflow-hidden rounded-xl border">
       <section className="bg-surface space-y-5 p-4">
         <div>
           <p className="ml-0.5 text-lg font-semibold">Your supplies</p>
@@ -47,12 +47,12 @@ const SuppliedPositions = () => {
           <div className="w-full min-w-17.5 text-center">Balance</div>
           <div className="w-full min-w-17.5 text-center">APY</div>
           <div className="w-full min-w-17.5 text-center">Collateral</div>
-          <div className="w-full min-w-17.5 text-center"></div>
+          <div className="w-full max-w-40 min-w-40 text-center"></div>
         </header>
         <div className="divide-elevated divide-y text-sm font-medium">
           {poolList.map((token) => (
             <div key={token.name} className="flex p-4">
-              <div className="flex w-full max-w-32.5 min-w-17.5 items-center gap-2.5">
+              <div className="flex w-full max-w-30 min-w-17.5 items-center gap-2.5">
                 <Image
                   src={token.image}
                   alt={token.name}
@@ -79,7 +79,10 @@ const SuppliedPositions = () => {
                   onChange={() => setChecked(!checked)}
                 />
               </div>
-              <div className="flex w-full min-w-17.5 items-center justify-end">
+              <div className="flex w-full max-w-40 min-w-40 items-center justify-end gap-2">
+                <Button variant="secondary" className="!px-3 !py-2">
+                  Supply
+                </Button>
                 <Button variant="tertiary" className="!px-3 !py-2">
                   Withdraw
                 </Button>
