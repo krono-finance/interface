@@ -29,12 +29,12 @@ const Button = ({
       onClick={!disabled ? onClick : undefined}
       disabled={disabled}
       className={classNames(
-        "inline-flex items-center justify-center rounded-3xl px-4 py-3",
+        "inline-flex items-center justify-center rounded-3xl px-4 py-2",
         "text-sm font-semibold transition-colors",
         "focus:outline-none",
         {
           // Primary variant
-          "text-dark bg-accent hover:bg-accent/80 border border-transparent":
+          "bg-accent hover:bg-accent/80 border border-transparent":
             variant === "primary" && !disabled,
 
           // Secondary variant

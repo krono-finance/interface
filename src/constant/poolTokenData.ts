@@ -1,19 +1,4 @@
-export interface IToken {
-  name: string;
-  symbol: string;
-  image: string;
-  address: string;
-  kTokenName: string;
-  kTokenSymbol: string;
-  kTokenAddress: string;
-  stableDebtTokenName: string;
-  stableDebtTokenSymbol: string;
-  stableDebtTokenAddress: string;
-  variableDebtTokenName: string;
-  variableDebtTokenSymbol: string;
-  variableDebtTokenAddress: string;
-  interestRateStrategyAddress: string;
-}
+import { IToken } from "@/types";
 
 export const POOL_TOKENS: {
   idrx: IToken;
@@ -105,3 +90,10 @@ export const POOL_TOKENS: {
 };
 
 export const poolList = Object.values(POOL_TOKENS);
+
+export const getTokenByAddress = (address: string): IToken | undefined => {
+  const normalizedAddress = address.toLowerCase();
+  return poolList.find(
+    (token) => token.address.toLowerCase() === normalizedAddress,
+  );
+};

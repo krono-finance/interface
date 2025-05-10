@@ -10,24 +10,28 @@ import CustomConnectButton from "../Web3Provider/CustomConnectButton";
 
 export const menus = [
   {
-    name: "Markets",
-    link: "/markets",
-  },
-  {
     name: "Dashboard",
     link: "/dashboard",
   },
   {
-    name: "Swap",
-    link: "/swap",
+    name: "Markets",
+    link: "/markets",
   },
   {
-    name: "Stake",
-    link: "/stake",
+    name: "Strategies",
+    link: "/strategies",
   },
+  // {
+  //   name: "Stake",
+  //   link: "/stake",
+  // },
+  // {
+  //   name: "Swap",
+  //   link: "/swap",
+  // },
   {
-    name: "Leverage",
-    link: "/leverage",
+    name: "Faucet",
+    link: "/faucet",
   },
 ];
 

@@ -6,7 +6,8 @@ import Image from "next/image";
 import CircularProgressBar from "@/components/Progress/CircularProgressBar";
 import CustomTable from "@/components/Table/TableCustom";
 import { ColumnType } from "@/components/Table/types";
-import { IToken, poolList } from "@/constant/poolTokenData";
+import { poolList } from "@/constant/poolTokenData";
+import { IToken } from "@/types";
 
 const MarketsTable = () => {
   const marketColumns: ColumnType<any>[] = [
@@ -130,7 +131,7 @@ const MarketsTable = () => {
         tbodyClassName=""
         trHeaderClassName="border-b border-elevated"
         rowHeight={80}
-        link="/markets"
+        link="/reserve"
       />
     </div>
   );
