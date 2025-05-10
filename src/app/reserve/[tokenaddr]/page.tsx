@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { getTokenByAddress } from "@/constant/poolTokenData";
 import ReserveHeader from "@/features/reserve/ReserveHeader/ReserveHeader";
+import ReserveStatusConfig from "@/features/reserve/ReserveStatusConfig/ReserveStatusConfig";
 
 const ReserveOverviewPage = async ({
   params,
@@ -21,6 +22,7 @@ const ReserveOverviewPage = async ({
   return (
     <>
       <ReserveHeader token={token} />
+      <ReserveStatusConfig />
     </>
   );
 };
