@@ -67,14 +67,14 @@ const Modal: React.FC<ModalProps> = ({
                 onClick={(e) => e.stopPropagation()}
                 className={classNames(
                   "mx-[15px] my-4 w-full transform overflow-hidden rounded-lg px-5 transition-all",
-                  "bg-surface border-elevated max-w-[345px] border md:max-w-[600px]",
+                  "bg-background border-elevated max-w-[345px] border md:max-w-[600px]",
                   className && className,
                 )}
               >
                 {title ? (
                   <div
                     className={classNames(
-                      "border-elevated flex h-[60px] items-center justify-between border-b-2 md:h-[72px]",
+                      "border-elevated -mx-5 flex h-[60px] items-center justify-between border-b px-5 md:h-[72px]",
                       titleClassName,
                     )}
                   >

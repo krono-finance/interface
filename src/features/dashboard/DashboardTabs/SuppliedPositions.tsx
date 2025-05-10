@@ -6,8 +6,11 @@ import Image from "next/image";
 import Button from "@/components/Button/Button";
 import SwitchCustom from "@/components/Switch/SwitchCustom";
 import { poolList } from "@/constant/poolTokenData";
+import { useRootStore } from "@/store/root";
 
 const SuppliedPositions = () => {
+  const openSupply = useRootStore((state) => state.openSupply);
+
   const [checked, setChecked] = useState(false);
 
   return (
@@ -43,7 +46,7 @@ const SuppliedPositions = () => {
 
       <section>
         <header className="bg-surface text-tertiary border-elevated flex h-full w-full border-b px-4 py-2 text-sm font-medium">
-          <div className="w-full max-w-32.5 min-w-17.5">Asset</div>
+          <div className="w-full max-w-30 min-w-17.5">Asset</div>
           <div className="w-full min-w-17.5 text-center">Balance</div>
           <div className="w-full min-w-17.5 text-center">APY</div>
           <div className="w-full min-w-17.5 text-center">Collateral</div>
@@ -80,7 +83,11 @@ const SuppliedPositions = () => {
                 />
               </div>
               <div className="flex w-full max-w-40 min-w-40 items-center justify-end gap-2">
-                <Button variant="secondary" className="!px-3 !py-2">
+                <Button
+                  variant="secondary"
+                  className="!px-3 !py-2"
+                  onClick={openSupply}
+                >
                   Supply
                 </Button>
                 <Button variant="tertiary" className="!px-3 !py-2">
