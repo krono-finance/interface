@@ -46,7 +46,7 @@ const Button = ({
             variant === "tertiary" && !disabled,
 
           // Ghost variant
-          "hover:border-elevated hover:bg-surface-hover border border-transparent bg-transparent":
+          "hover:border-elevated hover:bg-elevated border border-transparent bg-transparent":
             variant === "ghost" && !disabled,
 
           "bg-accent/60 text-muted cursor-not-allowed border border-transparent":

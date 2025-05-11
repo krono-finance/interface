@@ -1,9 +1,10 @@
 import React, { ReactNode } from "react";
 
+import classNames from "classnames";
 import { RotateCcwIcon } from "lucide-react";
 
 export interface NumberInputProps {
-  label: string;
+  label?: string;
   value: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (value: string) => void;
@@ -11,6 +12,7 @@ export interface NumberInputProps {
   suffix?: ReactNode;
   className?: string;
   placeholder?: string;
+  inputClassName?: string;
 }
 
 const NumberInput = ({
@@ -20,23 +22,36 @@ const NumberInput = ({
   onBlur,
   placeholder,
   suffix,
+  inputClassName,
+  className,
 }: NumberInputProps) => {
   return (
     <div className="text-tertiary space-y-2">
-      <div className="flex items-center justify-between">
-        <p>{label}</p>
-        <RotateCcwIcon className="hover:text-primary size-4 cursor-pointer" />
-      </div>
-      <div className="border-elevated flex w-full items-center justify-between gap-3 rounded-md border p-3 md:p-4">
+      {label && (
+        <div className="flex items-center justify-between">
+          <p>{label}</p>
+          <RotateCcwIcon className="hover:text-primary size-4 cursor-pointer" />
+        </div>
+      )}
+
+      <div
+        className={classNames(
+          "border-elevated flex w-full items-center justify-between gap-3 rounded-md border p-3 md:p-4",
+          className,
+        )}
+      >
         <input
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onBlur={onBlur}
           placeholder={placeholder}
-          className="text-primary h-full w-full bg-transparent leading-none focus:outline-none md:text-lg"
+          className={classNames(
+            "text-primary h-full w-full bg-transparent leading-none focus:outline-none md:text-lg",
+            inputClassName,
+          )}
         />
-        <div className="pr-4">{suffix}</div>
+        <div className="grid justify-end">{suffix}</div>
       </div>
     </div>
   );

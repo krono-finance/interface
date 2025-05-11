@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import classNames from "classnames";
 
 import TableHeaderCell from "./TableHeaderCell";
@@ -74,7 +76,7 @@ const CustomTable = <T extends Record<string, any>>({
                   {columns.map(({ key, width, className, customRender }) => (
                     <td key={key}>
                       {link ? (
-                        <a href={`${link}/${row.address}`}>
+                        <Link href={`${link}/${row.address}`}>
                           <div
                             style={{ minWidth: width, height: rowHeight }}
                             className={classNames(
@@ -86,7 +88,7 @@ const CustomTable = <T extends Record<string, any>>({
                               ? customRender(row[key], row)
                               : row[key]}
                           </div>
-                        </a>
+                        </Link>
                       ) : (
                         <div
                           style={{ minWidth: width }}
