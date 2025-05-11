@@ -13,7 +13,7 @@ interface ReserveHeaderProps {
 
 const ReserveHeader = ({ token }: ReserveHeaderProps) => {
   return (
-    <div className="xs:mb-12 my-8 space-y-6 lg:mt-16">
+    <div className="xs:my-12 my-8 space-y-6">
       <div className="flex items-center gap-3.5">
         <Link href={"/markets"}>
           <Button variant="secondary" className="gap-2.5">

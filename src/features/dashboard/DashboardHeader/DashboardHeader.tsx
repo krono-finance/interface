@@ -49,7 +49,7 @@ const DashboardHeader = () => {
   ];
 
   return (
-    <header className="xs:mb-12 my-8 space-y-5 lg:mt-16 lg:flex lg:items-center lg:justify-between">
+    <header className="xs:mt-12 xs:mb-8 mt-8 mb-6 space-y-5 lg:flex lg:items-center lg:justify-between">
       <div className="">
         <div className="flex items-center gap-2">
           <Image

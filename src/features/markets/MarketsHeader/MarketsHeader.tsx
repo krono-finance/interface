@@ -19,7 +19,7 @@ const MarketsHeader = () => {
   ];
 
   return (
-    <header className="xs:mb-12 my-8 space-y-5 lg:mt-16 lg:flex lg:items-center lg:justify-between">
+    <header className="xs:my-12 my-8 space-y-5 lg:flex lg:items-center lg:justify-between">
       <div className="">
         <div className="flex items-center gap-2">
           <Image
