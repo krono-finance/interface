@@ -1,6 +1,7 @@
 import React from "react";
 
 import BorrowInfoPanel from "./BorrowInfoPanel";
+import SupplyBorrowPanel from "./SupplyBorrowPanel";
 import SupplyInfoPanel from "./SupplyInfoPanel";
 
 const ReserveStatusConfig = () => {
@@ -9,8 +10,9 @@ const ReserveStatusConfig = () => {
       <div className="flex w-full flex-col gap-5">
         <SupplyInfoPanel />
         <BorrowInfoPanel />
+        {/* <InterestRateModel /> */}
       </div>
-      <div className="bg-surface border-elevated h-[400px] w-[470px] rounded-lg border px-8 py-6"></div>
+      <SupplyBorrowPanel />
     </section>
   );
 };
