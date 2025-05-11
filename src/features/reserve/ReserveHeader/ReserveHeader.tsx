@@ -52,37 +52,37 @@ const ReserveHeader = ({ token }: ReserveHeaderProps) => {
 
         <div className="grid grid-cols-2 gap-3 md:flex md:gap-6 lg:pl-7">
           <div id="total-supply">
-            <div className="text-tertiary xs:text-base text-xs">
+            <div className="text-tertiary xs:text-base text-sm">
               Total supply
             </div>
-            <p className="xs:text-xl space-x-0.5 font-semibold">
+            <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span className="text-tertiary">$</span>
               <span>150.45K</span>
             </p>
           </div>
           <div id="available-liquidity">
-            <div className="text-tertiary xs:text-base text-xs">
+            <div className="text-tertiary xs:text-base text-sm">
               Available liquidity
             </div>
-            <p className="xs:text-xl space-x-0.5 font-semibold">
+            <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span className="text-tertiary">$</span>
               <span>50.45K</span>
             </p>
           </div>
           <div id="utilization-rate">
-            <div className="text-tertiary xs:text-base text-xs">
+            <div className="text-tertiary xs:text-base text-sm">
               Utilization rate
             </div>
-            <p className="xs:text-xl space-x-0.5 font-semibold">
+            <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span>63.55</span>
               <span className="text-tertiary">%</span>
             </p>
           </div>
           <div id="oracle-price">
-            <div className="text-tertiary xs:text-base text-xs">
+            <div className="text-tertiary xs:text-base text-sm">
               Oracle price
             </div>
-            <p className="xs:text-xl space-x-0.5 font-semibold">
+            <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span className="text-tertiary">$</span>
               <span>1.00</span>
             </p>

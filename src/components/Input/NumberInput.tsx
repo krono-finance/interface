@@ -51,7 +51,7 @@ const NumberInput = ({
             inputClassName,
           )}
         />
-        <div className="grid justify-end">{suffix}</div>
+        <div className="grid w-full justify-end">{suffix}</div>
       </div>
     </div>
   );

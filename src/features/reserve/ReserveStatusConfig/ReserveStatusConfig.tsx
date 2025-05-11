@@ -1,19 +1,33 @@
+"use client";
 import React from "react";
 
+import useWindowSize from "@/hooks/useWindowSize";
+
 import BorrowInfoPanel from "./BorrowInfoPanel";
+import ReserveTabs from "./ReserveTabs";
 import SupplyBorrowPanel from "./SupplyBorrowPanel";
 import SupplyInfoPanel from "./SupplyInfoPanel";
 
 const ReserveStatusConfig = () => {
+  const { isTablet } = useWindowSize();
+
   return (
-    <section className="flex w-full gap-5">
-      <div className="flex w-full flex-col gap-5">
-        <SupplyInfoPanel />
-        <BorrowInfoPanel />
-        {/* <InterestRateModel /> */}
-      </div>
-      <SupplyBorrowPanel />
-    </section>
+    <>
+      {isTablet ? (
+        <ReserveTabs />
+      ) : (
+        <section className="flex w-full flex-col gap-3 md:gap-5 xl:flex-row">
+          <div className="order-2 flex w-full flex-col gap-3 md:gap-5 xl:order-1">
+            <SupplyInfoPanel />
+            <BorrowInfoPanel />
+            {/* <InterestRateModel /> */}
+          </div>
+          <div className="order-1 xl:order-2">
+            <SupplyBorrowPanel />
+          </div>
+        </section>
+      )}
+    </>
   );
 };
 

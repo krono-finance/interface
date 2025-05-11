@@ -16,7 +16,7 @@ const SupplyBorrowPanel = () => {
     useNumberInput();
 
   return (
-    <div className="bg-surface border-elevated h-fit min-w-[440px] space-y-5 rounded-lg border p-6 pt-4">
+    <div className="bg-surface border-elevated h-fit space-y-4 rounded-lg border p-4 pt-4 sm:min-w-[440px] sm:space-y-5 sm:p-6">
       <div className="bg-background flex w-full gap-1.5 rounded-full p-1.5">
         <Button
           variant={selectedAction === "Supply" ? "secondary" : "ghost"}
@@ -39,7 +39,7 @@ const SupplyBorrowPanel = () => {
           {selectedAction} Amount
         </p>
 
-        <div className="border-elevated bg-background min-h-20 rounded-xl border pt-0.5">
+        <div className="border-elevated bg-background rounded-xl border pt-0.5">
           <NumberInput
             onChange={handleInputChange}
             onBlur={handleInputBlur}
@@ -56,10 +56,10 @@ const SupplyBorrowPanel = () => {
               </div>
             }
             placeholder="0.00"
-            className="!border-0 !pb-0.5"
-            inputClassName="font-medium xl:text-xl max-w-[240px]"
+            className="!border-0 !pb-0 sm:!pb-0.5"
+            inputClassName="font-medium xl:text-xl sm:max-w-[240px]"
           />
-          <div className="text-tertiary flex justify-between gap-3 p-4 text-sm font-medium">
+          <div className="text-tertiary flex justify-between gap-3 p-3 text-sm font-medium sm:p-4">
             <span>$0</span>
             <span>Wallet balance: 500.00</span>
           </div>

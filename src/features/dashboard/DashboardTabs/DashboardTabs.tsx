@@ -22,6 +22,7 @@ const DashboardTabs = () => {
         currentIndex={menu}
         tabListClassName="sm:w-[500px] w-full"
         tabPanelsClassName="py-6"
+        tabItemClassName="!py-3 md:!py-5"
       >
         <TabPanel as="div" className="grid gap-5 xl:grid-cols-2">
           <SuppliedPositions />

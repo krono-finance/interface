@@ -20,10 +20,10 @@ const ReserveOverviewPage = async ({
   }
 
   return (
-    <>
+    <div className="pb-12">
       <ReserveHeader token={token} />
       <ReserveStatusConfig />
-    </>
+    </div>
   );
 };
 
