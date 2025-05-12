@@ -5,6 +5,7 @@ import { Inter, Sora } from "next/font/google";
 
 import MainLayout from "@/components/Layout/MainLayout";
 import ModalProvider from "@/components/Modal/ModalProvider";
+import ReactToaster from "@/components/ReactToaster/ReactToaster";
 import TanstackProvider from "@/components/TanstackProvider/TanstackProvider";
 import Web3Provider from "@/components/Web3Provider/Web3Provider";
 
@@ -37,6 +38,7 @@ export default function RootLayout({
           <Web3Provider>
             <MainLayout className="max-w-[1440px]">{children}</MainLayout>
             <ModalProvider />
+            <ReactToaster />
           </Web3Provider>
         </TanstackProvider>
       </body>
