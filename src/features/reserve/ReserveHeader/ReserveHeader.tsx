@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
@@ -5,13 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Button from "@/components/Button/Button";
-import { IToken } from "@/types";
+import { useRootStore } from "@/store/root";
 
-interface ReserveHeaderProps {
-  token: IToken;
-}
+const ReserveHeader = () => {
+  const tokenData = useRootStore((state) => state.tokenData);
 
-const ReserveHeader = ({ token }: ReserveHeaderProps) => {
   return (
     <div className="xs:my-12 my-8 space-y-6">
       <div className="flex items-center gap-3.5">
@@ -36,15 +35,17 @@ const ReserveHeader = ({ token }: ReserveHeaderProps) => {
       <div className="space-y-4 lg:flex lg:items-center lg:space-y-0">
         <div className="flex gap-3 pr-7">
           <Image
-            src={token.image}
-            alt={token.name}
+            src={tokenData.image}
+            alt={tokenData.name}
             width={64}
             height={64}
             className="xs:size-12 size-10"
           />
           <div>
-            <p className="text-tertiary xs:text-sm text-xs">{token.symbol}</p>
-            <p className="xs:text-2xl text-xl font-bold">{token.name}</p>
+            <p className="text-tertiary xs:text-sm text-xs">
+              {tokenData.symbol}
+            </p>
+            <p className="xs:text-2xl text-xl font-bold">{tokenData.name}</p>
           </div>
         </div>
 

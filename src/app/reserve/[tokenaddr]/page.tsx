@@ -3,6 +3,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 
 import { getTokenByAddress } from "@/constant/poolTokenData";
+import ReserveDataWrapper from "@/features/reserve/ReserveDataWrapper/ReserveDataWrapper";
 import ReserveHeader from "@/features/reserve/ReserveHeader/ReserveHeader";
 import ReserveStatusConfig from "@/features/reserve/ReserveStatusConfig/ReserveStatusConfig";
 
@@ -20,10 +21,10 @@ const ReserveOverviewPage = async ({
   }
 
   return (
-    <div className="pb-12">
-      <ReserveHeader token={token} />
+    <ReserveDataWrapper token={token}>
+      <ReserveHeader />
       <ReserveStatusConfig />
-    </div>
+    </ReserveDataWrapper>
   );
 };
 

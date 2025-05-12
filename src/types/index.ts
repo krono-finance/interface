@@ -5,6 +5,7 @@ export interface IToken {
   name: string;
   symbol: string;
   image: string;
+  decimals: number;
   address: string;
   kTokenName: string;
   kTokenSymbol: string;
