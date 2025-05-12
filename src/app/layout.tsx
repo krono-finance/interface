@@ -5,6 +5,7 @@ import { Inter, Sora } from "next/font/google";
 
 import MainLayout from "@/components/Layout/MainLayout";
 import ModalProvider from "@/components/Modal/ModalProvider";
+import TanstackProvider from "@/components/TanstackProvider/TanstackProvider";
 import Web3Provider from "@/components/Web3Provider/Web3Provider";
 
 import "../styles/globals.css";
@@ -32,10 +33,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${sora.variable} ${inter.variable} antialiased`}>
-        <Web3Provider>
-          <MainLayout className="max-w-[1440px]">{children}</MainLayout>
-          <ModalProvider />
-        </Web3Provider>
+        <TanstackProvider>
+          <Web3Provider>
+            <MainLayout className="max-w-[1440px]">{children}</MainLayout>
+            <ModalProvider />
+          </Web3Provider>
+        </TanstackProvider>
       </body>
     </html>
   );
