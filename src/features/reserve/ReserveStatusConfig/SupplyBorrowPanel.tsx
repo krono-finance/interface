@@ -20,7 +20,10 @@ import SwitchCustom from "@/components/Switch/SwitchCustom";
 import { LENDING_POOL_CONTRACT_ADDRESS } from "@/constant/contractAddresses";
 import useNumberInput from "@/hooks/useNumberInput";
 import { useWalletBalance } from "@/hooks/useWalletBalanceProvider";
-import { supply } from "@/lib/services/lendingPoolService";
+import {
+  borrowService,
+  supplyService,
+} from "@/lib/services/lendingPoolService";
 import { formatNumber } from "@/lib/utils";
 import { useRootStore } from "@/store/root";
 
@@ -36,7 +39,9 @@ const SupplyBorrowPanel = () => {
     token.address as Address,
   );
 
-  const [selectedAction, setSelectedAction] = useState("Supply");
+  const [selectedAction, setSelectedAction] = useState<"Supply" | "Borrow">(
+    "Supply",
+  );
   const [ethWeth, setEthWeth] = useState(false);
   const [isTransacting, setIsTransacting] = useState(false);
 
@@ -93,7 +98,7 @@ const SupplyBorrowPanel = () => {
       const supplyToast = toast.loading(`Supplying ${token.symbol}`);
 
       try {
-        const tx = await supply(
+        const tx = await supplyService(
           asset,
           inputAmount,
           address,
@@ -114,6 +119,51 @@ const SupplyBorrowPanel = () => {
       } finally {
         setIsTransacting(false);
         toast.dismiss(supplyToast);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsTransacting(false);
+    }
+  };
+
+  const handleBorrow = async () => {
+    if (!walletClient || !address) return;
+
+    try {
+      setIsTransacting(true);
+      const inputAmount = BigInt(
+        BigNumber(value)
+          .times(10 ** token.decimals)
+          .toFixed(0),
+      );
+      const asset = token.address as Address;
+
+      // Borrow
+      const borrowToast = toast.loading(`Borrowing ${token.symbol}`);
+
+      try {
+        const tx = await borrowService(
+          asset,
+          inputAmount,
+          address,
+          walletClient,
+          address,
+        );
+
+        await waitForTransactionReceipt(walletClient, {
+          hash: tx as `0x${string}`,
+        });
+
+        toast.success("Borrow successful!");
+        handleInputChange("0");
+        console.log(tx);
+      } catch (error) {
+        toast.error("Borrow failed!");
+        throw error;
+      } finally {
+        setIsTransacting(false);
+        toast.dismiss(borrowToast);
       }
     } catch (error) {
       console.log(error);
@@ -171,7 +221,11 @@ const SupplyBorrowPanel = () => {
           <div className="text-tertiary flex justify-between gap-3 p-3 text-sm font-medium sm:p-4">
             <span>$0</span>
             <span>
-              Wallet balance: {formatNumber((balance as bigint) || "0")}
+              {selectedAction === "Supply" ? (
+                <>Wallet balance: {formatNumber((balance as bigint) || "0")}</>
+              ) : (
+                <>Available: 0</>
+              )}
             </span>
           </div>
         </div>
@@ -212,7 +266,7 @@ const SupplyBorrowPanel = () => {
       <Button
         className="w-full !py-3 !text-base"
         disabled={value <= 0 || isTransacting}
-        onClick={handleSupply}
+        onClick={selectedAction === "Supply" ? handleSupply : handleBorrow}
       >
         {value > 0 ? (
           <>

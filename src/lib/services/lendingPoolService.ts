@@ -5,7 +5,7 @@ import LENDING_POOL_ABI from "@/lib/abi/LendingPoolABI.json";
 
 import { publicClient } from "./common";
 
-export const supply = async (
+export const supplyService = async (
   asset: Address,
   amount: bigint,
   onBehalfOf: Address,
@@ -31,6 +31,30 @@ export const supply = async (
   }
 };
 
-export const borrow = async () => {};
-export const withdraw = async () => {};
-export const repay = async () => {};
+export const borrowService = async (
+  asset: Address,
+  amount: bigint,
+  onBehalfOf: Address,
+  walletClient: WalletClient,
+  account: Address,
+) => {
+  try {
+    const referralCode = 0;
+    const { request } = await publicClient.simulateContract({
+      address: LENDING_POOL_CONTRACT_ADDRESS,
+      abi: LENDING_POOL_ABI,
+      functionName: "borrow",
+      args: [asset, amount, 2, referralCode, onBehalfOf],
+      account,
+    });
+
+    const tx = await walletClient.writeContract(request);
+    console.log(tx);
+    return tx;
+  } catch (error) {
+    console.error(`Error in supply: ${error}`);
+    throw error;
+  }
+};
+export const withdrawService = async () => {};
+export const repayService = async () => {};
