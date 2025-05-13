@@ -3,10 +3,18 @@ import React from "react";
 
 import Image from "next/image";
 
+import { useShallow } from "zustand/shallow";
+
 import Button from "@/components/Button/Button";
 import { poolList } from "@/constant/poolTokenData";
+import { useRootStore } from "@/store/root";
 
 const BorrowedPositions = () => {
+  const [openBorrow, openRepay] = useRootStore(
+    useShallow((state) => [state.openBorrow, state.openRepay]),
+  );
+  const updateTokenData = useRootStore((state) => state.updateTokenData);
+
   return (
     <div className="border-elevated h-fit overflow-hidden rounded-xl border">
       <section className="bg-surface space-y-5 p-4">
@@ -70,10 +78,24 @@ const BorrowedPositions = () => {
                 </p>
               </div>
               <div className="flex w-full max-w-40 min-w-40 items-center justify-end gap-2">
-                <Button variant="secondary" className="!py-2">
+                <Button
+                  variant="secondary"
+                  className="!py-2"
+                  onClick={() => {
+                    openBorrow();
+                    updateTokenData(token);
+                  }}
+                >
                   Borrow
                 </Button>
-                <Button variant="tertiary" className="!py-2">
+                <Button
+                  variant="tertiary"
+                  className="!py-2"
+                  onClick={() => {
+                    openRepay();
+                    updateTokenData(token);
+                  }}
+                >
                   Repay
                 </Button>
               </div>

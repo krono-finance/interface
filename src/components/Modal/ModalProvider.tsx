@@ -6,9 +6,11 @@ import dynamic from "next/dynamic";
 const SupplyModal = dynamic(() =>
   import("../Transactions/SupplyModal").then((module) => module.default),
 );
-
 const WithdrawModal = dynamic(() =>
   import("../Transactions/WithdrawModal").then((module) => module.default),
+);
+const RepayModal = dynamic(() =>
+  import("../Transactions/RepayModal").then((module) => module.default),
 );
 
 const ModalProvider = () => {
@@ -16,6 +18,7 @@ const ModalProvider = () => {
     <>
       <SupplyModal />
       <WithdrawModal />
+      <RepayModal />
     </>
   );
 };

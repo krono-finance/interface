@@ -55,6 +55,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
           onChange={handleInputChange}
           onBlur={handleInputBlur}
           value={displayValue}
+          inputClassName="md:min-w-[400px]"
           suffix={
             <div className="flex items-center gap-1.5">
               <Image
@@ -73,7 +74,12 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
 
         <div className="flex items-center justify-between gap-3 text-sm">
           <p className="text-tertiary">
-            Available: {available} {token.symbol}
+            {txType === "Repay"
+              ? "Remaining"
+              : txType === "Supply"
+                ? "Balance"
+                : "Available"}
+            : {available} {token.symbol}
           </p>
           <div className="flex items-center gap-1.5">
             {quickAddPercentages.map((percentage) => (

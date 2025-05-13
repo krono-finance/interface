@@ -82,4 +82,27 @@ export const withdrawService = async (
   }
 };
 
-export const repayService = async () => {};
+export const repayService = async (
+  asset: Address,
+  amount: bigint,
+  onBehalfOf: Address,
+  walletClient: WalletClient,
+  account: Address,
+) => {
+  try {
+    const { request } = await publicClient.simulateContract({
+      address: LENDING_POOL_CONTRACT_ADDRESS,
+      abi: LENDING_POOL_ABI,
+      functionName: "repay",
+      args: [asset, amount, 2, onBehalfOf],
+      account,
+    });
+
+    const tx = await walletClient.writeContract(request);
+    console.log(tx);
+    return tx;
+  } catch (error) {
+    console.error(`Error in supply: ${error}`);
+    throw error;
+  }
+};
