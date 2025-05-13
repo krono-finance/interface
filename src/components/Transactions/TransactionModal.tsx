@@ -18,10 +18,11 @@ interface TransactionModalProps {
   txType: "Supply" | "Borrow" | "Withdraw" | "Repay";
   value: number;
   displayValue: string;
+  isTransacting: boolean;
   // eslint-disable-next-line no-unused-vars
   handleInputChange: (val: string) => void;
   handleInputBlur: () => void;
-  handleTransaction: () => void | (() => Promise<void>);
+  handleTransaction: () => Promise<void>;
 }
 
 const TransactionModal: React.FC<TransactionModalProps> = ({
@@ -32,6 +33,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
   txType,
   value,
   displayValue,
+  isTransacting,
   handleInputChange,
   handleInputBlur,
   handleTransaction,
@@ -41,8 +43,10 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
       title={`${txType} ${token.symbol}`}
       isOpen={isOpen}
       onClose={() => {
-        onClose();
-        handleInputChange("");
+        if (!isTransacting) {
+          onClose();
+          handleInputChange("");
+        }
       }}
     >
       <div className="space-y-3 py-4">
@@ -85,7 +89,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
         </div>
 
         <Button
-          disabled={value <= 0}
+          disabled={value <= 0 || isTransacting}
           className="mt-4 mb-2 w-full !py-2.5 !text-base"
           onClick={handleTransaction}
         >
