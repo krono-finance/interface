@@ -25,7 +25,7 @@ const SupplyInfoPanel = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 text-sm font-medium md:flex-col">
+          <div className="flex items-center gap-1.5 text-sm font-medium md:flex-col md:items-start">
             <p>Collateral Usage</p>
             <div className="border-border text-success flex w-fit items-center gap-0.5 rounded-2xl border px-2.5 py-1">
               <CheckIcon className="size-5" /> <span>Can be collateral</span>

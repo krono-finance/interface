@@ -9,6 +9,7 @@ import { Address, erc20Abi } from "viem";
 import { waitForTransactionReceipt } from "viem/actions";
 import {
   useAccount,
+  useBalance,
   useReadContract,
   useWalletClient,
   useWriteContract,
@@ -19,12 +20,10 @@ import NumberInput from "@/components/Input/NumberInput";
 import SwitchCustom from "@/components/Switch/SwitchCustom";
 import { LENDING_POOL_CONTRACT_ADDRESS } from "@/constant/contractAddresses";
 import useNumberInput from "@/hooks/useNumberInput";
-import { useWalletBalance } from "@/hooks/useWalletBalanceProvider";
 import {
   borrowService,
   supplyService,
 } from "@/lib/services/lendingPoolService";
-import { formatNumber } from "@/lib/utils";
 import { useRootStore } from "@/store/root";
 
 const SupplyBorrowPanel = () => {
@@ -34,10 +33,20 @@ const SupplyBorrowPanel = () => {
 
   const token = useRootStore((state) => state.tokenData);
 
-  const { data: balance } = useWalletBalance(
-    address!,
-    token.address as Address,
-  );
+  const { data: ethBalance } = useBalance({
+    address,
+  });
+
+  const { data: tokenBalance } = useBalance({
+    address,
+    token: token.address as `0x${string}`,
+  });
+
+  const selectedBalance = token.symbol === "ETH" ? ethBalance : tokenBalance;
+  const balance = BigNumber(selectedBalance?.value || "0")
+    .div(10 ** token.decimals)
+    .toFormat()
+    .toString();
 
   const [selectedAction, setSelectedAction] = useState<"Supply" | "Borrow">(
     "Supply",
@@ -222,7 +231,7 @@ const SupplyBorrowPanel = () => {
             <span>$0</span>
             <span>
               {selectedAction === "Supply" ? (
-                <>Wallet balance: {formatNumber((balance as bigint) || "0")}</>
+                <>Wallet balance: {balance}</>
               ) : (
                 <>Available: 0</>
               )}
