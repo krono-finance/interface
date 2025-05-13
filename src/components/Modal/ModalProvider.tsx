@@ -7,10 +7,15 @@ const SupplyModal = dynamic(() =>
   import("../Transactions/SupplyModal").then((module) => module.default),
 );
 
+const WithdrawModal = dynamic(() =>
+  import("../Transactions/WithdrawModal").then((module) => module.default),
+);
+
 const ModalProvider = () => {
   return (
     <>
       <SupplyModal />
+      <WithdrawModal />
     </>
   );
 };

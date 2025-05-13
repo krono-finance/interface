@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react";
 
 import classNames from "classnames";
-import { RotateCcwIcon } from "lucide-react";
 
 export interface NumberInputProps {
   label?: string;
@@ -30,7 +29,7 @@ const NumberInput = ({
       {label && (
         <div className="flex items-center justify-between">
           <p>{label}</p>
-          <RotateCcwIcon className="hover:text-primary size-4 cursor-pointer" />
+          {/* <RotateCcwIcon className="hover:text-primary size-4 cursor-pointer" /> */}
         </div>
       )}
 

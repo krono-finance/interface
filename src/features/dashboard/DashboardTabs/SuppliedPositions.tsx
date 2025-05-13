@@ -3,13 +3,18 @@ import React, { useState } from "react";
 
 import Image from "next/image";
 
+import { useShallow } from "zustand/shallow";
+
 import Button from "@/components/Button/Button";
 import SwitchCustom from "@/components/Switch/SwitchCustom";
 import { poolList } from "@/constant/poolTokenData";
 import { useRootStore } from "@/store/root";
 
 const SuppliedPositions = () => {
-  const openSupply = useRootStore((state) => state.openSupply);
+  const [openSupply, openWithdraw] = useRootStore(
+    useShallow((state) => [state.openSupply, state.openWithdraw]),
+  );
+  const updateTokenData = useRootStore((state) => state.updateTokenData);
 
   const [checked, setChecked] = useState(false);
 
@@ -86,11 +91,21 @@ const SuppliedPositions = () => {
                 <Button
                   variant="secondary"
                   className="!px-3 !py-2"
-                  onClick={openSupply}
+                  onClick={() => {
+                    openSupply();
+                    updateTokenData(token);
+                  }}
                 >
                   Supply
                 </Button>
-                <Button variant="tertiary" className="!px-3 !py-2">
+                <Button
+                  variant="tertiary"
+                  className="!px-3 !py-2"
+                  onClick={() => {
+                    openWithdraw();
+                    updateTokenData(token);
+                  }}
+                >
                   Withdraw
                 </Button>
               </div>
