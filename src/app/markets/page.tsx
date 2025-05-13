@@ -1,13 +1,13 @@
 import React from "react";
 
+import LendingMarkets from "@/features/markets/LendingMarkets/LendingMarkets";
 import MarketsHeader from "@/features/markets/MarketsHeader/MarketsHeader";
-import MarketsTable from "@/features/markets/MarketsTable/MarketsTable";
 
 const MarketsPage = () => {
   return (
     <>
       <MarketsHeader />
-      <MarketsTable />
+      <LendingMarkets />
     </>
   );
 };

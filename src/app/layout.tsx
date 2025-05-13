@@ -3,6 +3,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { Inter, Sora } from "next/font/google";
 
+import AppInitializer from "@/components/AppInitializer/AppInitializer";
 import MainLayout from "@/components/Layout/MainLayout";
 import ModalProvider from "@/components/Modal/ModalProvider";
 import ReactToaster from "@/components/ReactToaster/ReactToaster";
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className={`${sora.variable} ${inter.variable} antialiased`}>
         <TanstackProvider>
           <Web3Provider>
+            <AppInitializer />
             <MainLayout className="max-w-[1440px]">{children}</MainLayout>
             <ModalProvider />
             <ReactToaster />
