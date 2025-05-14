@@ -6,34 +6,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 import BigNumber from "bignumber.js";
-import { useShallow } from "zustand/shallow";
 
 import Button from "@/components/Button/Button";
-import { useReserveMetrics } from "@/hooks/useReserveMetrics";
+import useReserveMetrics from "@/hooks/useReserveMetrics";
 import { formatTokenValue } from "@/lib/utils";
-import { useRootStore } from "@/store/root";
 
 const ReserveHeader = () => {
-  const [tokenData, tokensPrice, reservesData] = useRootStore(
-    useShallow((state) => [
-      state.tokenData,
-      state.tokensPrice,
-      state.reservesData,
-    ]),
-  );
-  const tokenPrice = tokensPrice.find(
-    (t) => t.symbol === tokenData.symbol,
-  )?.price;
-  const reserve = reservesData.find(
-    (reserve) =>
-      reserve.underlyingAsset.toLowerCase() === tokenData.address.toLowerCase(),
-  );
+  const reserve = useReserveMetrics();
 
-  console.log(reserve);
-
-  const metrics = useReserveMetrics(reserve, tokenPrice);
-
-  if (!metrics) return null;
+  if (!reserve) return null;
 
   return (
     <div className="xs:my-12 my-8 space-y-6">
@@ -59,17 +40,19 @@ const ReserveHeader = () => {
       <div className="space-y-4 lg:flex lg:items-center lg:space-y-0">
         <div className="flex gap-3 pr-7">
           <Image
-            src={tokenData.image}
-            alt={tokenData.name}
+            src={reserve.tokenData.image}
+            alt={reserve.tokenData.name}
             width={64}
             height={64}
             className="xs:size-12 size-10"
           />
           <div>
             <p className="text-tertiary xs:text-sm text-xs">
-              {tokenData.symbol}
+              {reserve.tokenData.symbol}
             </p>
-            <p className="xs:text-2xl text-xl font-bold">{tokenData.name}</p>
+            <p className="xs:text-2xl text-xl font-bold">
+              {reserve.tokenData.name}
+            </p>
           </div>
         </div>
 
@@ -82,7 +65,7 @@ const ReserveHeader = () => {
             </div>
             <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span className="text-tertiary">$</span>
-              <span>{formatTokenValue(metrics.totalSupply)}</span>
+              <span>{formatTokenValue(reserve.totalSupply)}</span>
             </p>
           </div>
           <div id="available-liquidity">
@@ -91,7 +74,7 @@ const ReserveHeader = () => {
             </div>
             <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span className="text-tertiary">$</span>
-              <span>{formatTokenValue(metrics.availableLiquidity)}</span>
+              <span>{formatTokenValue(reserve.availableLiquidity)}</span>
             </p>
           </div>
           <div id="utilization-rate">
@@ -99,7 +82,7 @@ const ReserveHeader = () => {
               Utilization rate
             </div>
             <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
-              <span>{metrics.utilization}</span>
+              <span>{reserve.utilization}</span>
               <span className="text-tertiary">%</span>
             </p>
           </div>
@@ -109,7 +92,9 @@ const ReserveHeader = () => {
             </div>
             <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span className="text-tertiary">$</span>
-              <span>{formatTokenValue(BigNumber(tokenPrice ?? "0"))}</span>
+              <span>
+                {formatTokenValue(BigNumber(reserve.tokenPrice ?? "0"))}
+              </span>
             </p>
           </div>
         </div>

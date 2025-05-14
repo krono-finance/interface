@@ -1,8 +1,10 @@
 import { useMemo } from "react";
 
 import { BigNumber } from "bignumber.js";
+import { useShallow } from "zustand/shallow";
 
-import { IReserve } from "@/types";
+import { useRootStore } from "@/store/root";
+import { IToken } from "@/types";
 
 interface ReserveMetrics {
   availableLiquidity: BigNumber;
@@ -14,13 +16,28 @@ interface ReserveMetrics {
   borrowAPY: string;
   supplyInUSD: BigNumber;
   borrowInUSD: BigNumber;
+  tokenData: IToken;
+  tokenPrice: string;
 }
 
-export const useReserveMetrics = (
-  reserve: IReserve | undefined,
-  tokenPrice: string | undefined,
-  ethPrice: string = "2600", // Default ETH price (can be dynamic)
+const useReserveMetrics = (
+  ethPrice: string = "2600",
 ): ReserveMetrics | undefined => {
+  const [tokenData, tokensPrice, reservesData] = useRootStore(
+    useShallow((state) => [
+      state.tokenData,
+      state.tokensPrice,
+      state.reservesData,
+    ]),
+  );
+  const tokenPrice = tokensPrice.find(
+    (t) => t.symbol === tokenData.symbol,
+  )?.price;
+  const reserve = reservesData.find(
+    (reserve) =>
+      reserve.underlyingAsset.toLowerCase() === tokenData.address.toLowerCase(),
+  );
+
   return useMemo(() => {
     if (!reserve) return undefined;
 
@@ -71,6 +88,10 @@ export const useReserveMetrics = (
       borrowAPY,
       supplyInUSD,
       borrowInUSD,
+      tokenData,
+      tokenPrice: tokenPrice ?? "0",
     };
-  }, [reserve, tokenPrice, ethPrice]);
+  }, [reserve, ethPrice, tokenPrice, tokenData]);
 };
+
+export default useReserveMetrics;

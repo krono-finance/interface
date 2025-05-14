@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Button from "@/components/Button/Button";
-import { useReserveMetrics } from "@/hooks/useReserveMetrics";
+import useReserveMetrics from "@/hooks/useReserveMetrics";
 import { formatTokenValue } from "@/lib/utils";
 import { IReserve, IToken, ITokenPrice } from "@/types";
 
@@ -14,22 +14,19 @@ interface LendingAssetCardProps {
   token: IToken;
 }
 
-const LendingAssetCard = ({
-  reserve,
-  token,
-  tokensPrice,
-}: LendingAssetCardProps) => {
-  const tokenPrice = tokensPrice.find(
-    (t) => t.symbol === reserve.symbol,
-  )?.price;
+const LendingAssetCard = ({ reserve, token }: LendingAssetCardProps) => {
+  const metrics = useReserveMetrics();
+
+  if (!metrics) return null;
+
   const {
-    totalSupply,
-    totalBorrow,
-    supplyAPY,
     borrowAPY,
-    supplyInUSD,
     borrowInUSD,
-  } = useReserveMetrics(reserve, tokenPrice);
+    supplyAPY,
+    supplyInUSD,
+    totalBorrow,
+    totalSupply,
+  } = metrics;
 
   return (
     <div className="border-elevated bg-surface space-y-5 border border-b-0 p-4 pb-6 first:rounded-t-xl last:rounded-b-xl last:border-b sm:rounded-xl">

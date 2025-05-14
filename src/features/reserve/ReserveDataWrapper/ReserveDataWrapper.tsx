@@ -11,10 +11,24 @@ interface ReserveDataWrapper {
 
 const ReserveDataWrapper = ({ children, token }: ReserveDataWrapper) => {
   const updateTokenData = useRootStore((state) => state.updateTokenData);
+  const updateCurrentReserve = useRootStore(
+    (state) => state.updateCurrentReserve,
+  );
+  const reservesData = useRootStore((state) => state.reservesData);
 
   useEffect(() => {
     updateTokenData(token);
   }, [token, updateTokenData]);
+
+  useEffect(() => {
+    const reserve = reservesData.find(
+      (reserve) =>
+        reserve.underlyingAsset.toLowerCase() === token.address.toLowerCase(),
+    );
+    if (reserve) {
+      updateCurrentReserve(reserve);
+    }
+  }, [reservesData, token.address, updateCurrentReserve]);
 
   return <div className="pb-12">{children}</div>;
 };
