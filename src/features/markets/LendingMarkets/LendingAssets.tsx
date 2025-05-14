@@ -68,6 +68,7 @@ const LendingAssets = () => {
                   headers={headers}
                   reserve={reserve}
                   token={token}
+                  tokensPrice={tokensPrice}
                 />
               );
             })}

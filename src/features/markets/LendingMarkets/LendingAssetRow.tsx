@@ -4,12 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import CircularProgressBar from "@/components/Progress/CircularProgressBar";
-import useReserveMetrics from "@/hooks/useReserveMetrics";
+import useMarketData from "@/hooks/useMarketData";
 import { formatTokenValue } from "@/lib/utils";
-import { IReserve, IToken } from "@/types";
+import { IReserve, IToken, ITokenPrice } from "@/types";
 
 interface LendingAssetRowProps {
   reserve: IReserve;
+  tokensPrice: ITokenPrice[];
   token: IToken;
   headers: {
     label: string;
@@ -17,21 +18,25 @@ interface LendingAssetRowProps {
   }[];
 }
 
-const LendingAssetRow = ({ reserve, headers, token }: LendingAssetRowProps) => {
-  const metrics = useReserveMetrics();
-
-  if (!metrics) return null;
-
+const LendingAssetRow = ({
+  reserve,
+  tokensPrice,
+  headers,
+  token,
+}: LendingAssetRowProps) => {
+  const tokenPrice = tokensPrice.find(
+    (t) => t.symbol === reserve.symbol,
+  )?.price;
   const {
-    borrowAPY,
-    borrowInUSD,
+    totalSupply,
+    totalBorrow,
+    utilization,
     ltv,
     supplyAPY,
+    borrowAPY,
     supplyInUSD,
-    totalBorrow,
-    totalSupply,
-    utilization,
-  } = metrics;
+    borrowInUSD,
+  } = useMarketData(reserve, tokenPrice);
 
   return (
     <Link

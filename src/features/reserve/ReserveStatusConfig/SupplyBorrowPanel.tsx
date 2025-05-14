@@ -22,8 +22,10 @@ import { LENDING_POOL_CONTRACT_ADDRESS } from "@/constant/contractAddresses";
 import useNumberInput from "@/hooks/useNumberInput";
 import {
   borrowService,
+  supplyEthService,
   supplyService,
 } from "@/lib/services/lendingPoolService";
+import { formatTokenValue } from "@/lib/utils";
 import { useRootStore } from "@/store/root";
 
 const SupplyBorrowPanel = () => {
@@ -181,6 +183,87 @@ const SupplyBorrowPanel = () => {
     }
   };
 
+  const handleSupplyETH = async () => {
+    if (!walletClient || !address) return;
+
+    try {
+      setIsTransacting(true);
+      const inputAmount = BigInt(
+        BigNumber(value)
+          .times(10 ** token.decimals)
+          .toFixed(0),
+      );
+
+      // Supply
+      const supplyToast = toast.loading(`Supplying ${token.symbol}`);
+
+      try {
+        const tx = await supplyEthService(
+          inputAmount,
+          address,
+          walletClient,
+          address,
+        );
+
+        await waitForTransactionReceipt(walletClient, {
+          hash: tx as `0x${string}`,
+        });
+
+        toast.success("Supply successful!");
+        handleInputChange("0");
+        console.log(tx);
+      } catch (error) {
+        toast.error("Supply failed!");
+        throw error;
+      } finally {
+        setIsTransacting(false);
+        toast.dismiss(supplyToast);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsTransacting(false);
+    }
+  };
+
+  // const handleBorrowETH = async () => {
+  //   if (!walletClient || !address) return;
+
+  //   try {
+  //     setIsTransacting(true);
+  //     const inputAmount = BigInt(
+  //       BigNumber(value)
+  //         .times(10 ** token.decimals)
+  //         .toFixed(0),
+  //     );
+
+  //     // Borrow
+  //     const borrowToast = toast.loading(`Borrowing ${token.symbol}`);
+
+  //     try {
+  //       const tx = await borrowEthService(inputAmount, walletClient, address);
+
+  //       await waitForTransactionReceipt(walletClient, {
+  //         hash: tx as `0x${string}`,
+  //       });
+
+  //       toast.success("Borrow successful!");
+  //       handleInputChange("0");
+  //       console.log(tx);
+  //     } catch (error) {
+  //       toast.error("Borrow failed!");
+  //       throw error;
+  //     } finally {
+  //       setIsTransacting(false);
+  //       toast.dismiss(borrowToast);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setIsTransacting(false);
+  //   }
+  // };
+
   return (
     <div className="bg-surface border-elevated h-fit space-y-4 rounded-lg border p-4 pt-4 sm:min-w-[470px] sm:space-y-5 sm:p-6">
       <div className="bg-background flex w-full gap-1.5 rounded-full p-1.5">
@@ -231,7 +314,7 @@ const SupplyBorrowPanel = () => {
             <span>$0</span>
             <span>
               {selectedAction === "Supply" ? (
-                <>Wallet balance: {balance}</>
+                <>Wallet balance: {formatTokenValue(BigNumber(balance))}</>
               ) : (
                 <>Available: 0</>
               )}
@@ -275,7 +358,13 @@ const SupplyBorrowPanel = () => {
       <Button
         className="w-full !py-3 !text-base"
         disabled={value <= 0 || isTransacting}
-        onClick={selectedAction === "Supply" ? handleSupply : handleBorrow}
+        onClick={() => {
+          if (selectedAction === "Borrow") {
+            return handleBorrow();
+          } else if (selectedAction === "Supply") {
+            return token.symbol === "ETH" ? handleSupplyETH() : handleSupply();
+          }
+        }}
       >
         {value > 0 ? (
           <>

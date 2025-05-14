@@ -10,7 +10,7 @@ export const POOL_TOKENS: {
   weth: {
     name: "Ethereum",
     symbol: "ETH",
-    image: "/tokens/weth.svg",
+    image: "/tokens/eth.svg",
     decimals: 18,
     address: "0x4200000000000000000000000000000000000006",
     kTokenName: "Krono Lisk WETH",

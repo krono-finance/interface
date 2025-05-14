@@ -30,8 +30,8 @@ const CircularProgressBar = ({
   };
 
   const reverseColor = () => {
-    if (percentage > 80) return "#2fd9a3";
-    if (percentage > 50) return "#fcd94c";
+    if (percentage > 50) return "#2fd9a3";
+    if (percentage > 20) return "#fcd94c";
     return "#f24868";
   };
 
