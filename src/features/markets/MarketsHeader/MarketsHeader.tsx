@@ -1,20 +1,26 @@
+"use client";
 import React from "react";
 
 import Image from "next/image";
 
+import useTotalMarketSize from "@/hooks/useTotalMarketSize";
+
 const MarketsHeader = () => {
+  const { totalAvailableUSD, totalBorrowUSD, totalSupplyUSD } =
+    useTotalMarketSize();
+
   const marketsData = [
     {
       title: "Total supply",
-      value: "122.35M",
+      value: totalSupplyUSD,
     },
     {
       title: "Total borrow",
-      value: "57.10M",
+      value: totalBorrowUSD,
     },
     {
       title: "Total available",
-      value: "65.25M",
+      value: totalAvailableUSD,
     },
   ];
 

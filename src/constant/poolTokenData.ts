@@ -7,23 +7,6 @@ export const POOL_TOKENS: {
   usdc: IToken;
   usdt: IToken;
 } = {
-  idrx: {
-    name: "IDRX",
-    symbol: "IDRX",
-    image: "/tokens/idrx.svg",
-    decimals: 2,
-    address: "0xd63029c1a3da68b51c67c6d1dec3dee50d681661",
-    kTokenName: "Krono Lisk IDRX",
-    kTokenSymbol: "kLiskIDRX",
-    kTokenAddress: "0x01e117A4D2462A2218F66Cf56753dc73490d03c5",
-    stableDebtTokenName: "Krono Lisk Stable Debt IDRX",
-    stableDebtTokenSymbol: "stableDebtLiskIDRX",
-    stableDebtTokenAddress: "0x98623acbfd9E336A72524614bE80fA43d892d774",
-    variableDebtTokenName: "Krono Lisk Variable Debt IDRX",
-    variableDebtTokenSymbol: "variableDebtLiskIDRX",
-    variableDebtTokenAddress: "0x9fa49a606fc6Cc0f8Fc4E5659961AeF5eF95EAa6",
-    interestRateStrategyAddress: "0xecd44a2A08F3cedd1CCf09c28756861EE28F630e",
-  },
   weth: {
     name: "Ethereum",
     symbol: "ETH",
@@ -40,6 +23,23 @@ export const POOL_TOKENS: {
     variableDebtTokenSymbol: "variableDebtLiskWETH",
     variableDebtTokenAddress: "0x4a673B1c2348aF738c52Cf84c8e7c0E499467e37",
     interestRateStrategyAddress: "0x63D41662484d665B657Fe7Ccec19B17540C75cf1",
+  },
+  idrx: {
+    name: "IDRX",
+    symbol: "IDRX",
+    image: "/tokens/idrx.svg",
+    decimals: 2,
+    address: "0xd63029c1a3da68b51c67c6d1dec3dee50d681661",
+    kTokenName: "Krono Lisk IDRX",
+    kTokenSymbol: "kLiskIDRX",
+    kTokenAddress: "0x01e117A4D2462A2218F66Cf56753dc73490d03c5",
+    stableDebtTokenName: "Krono Lisk Stable Debt IDRX",
+    stableDebtTokenSymbol: "stableDebtLiskIDRX",
+    stableDebtTokenAddress: "0x98623acbfd9E336A72524614bE80fA43d892d774",
+    variableDebtTokenName: "Krono Lisk Variable Debt IDRX",
+    variableDebtTokenSymbol: "variableDebtLiskIDRX",
+    variableDebtTokenAddress: "0x9fa49a606fc6Cc0f8Fc4E5659961AeF5eF95EAa6",
+    interestRateStrategyAddress: "0xecd44a2A08F3cedd1CCf09c28756861EE28F630e",
   },
   wbtc: {
     name: "Wrapped BTC",

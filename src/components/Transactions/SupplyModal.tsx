@@ -28,9 +28,10 @@ const SupplyModal = () => {
       txType="Supply"
       value={value}
       displayValue={displayValue}
+      isTransacting={false}
       handleInputChange={handleInputChange}
       handleInputBlur={handleInputBlur}
-      handleTransaction={() => {}}
+      handleTransaction={async () => {}}
     />
   );
 };

@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { StateCreator } from "zustand";
 
 import { POOL_TOKENS } from "@/constant/poolTokenData";
-import { IReserve, IToken, IUserReserve } from "@/types";
+import { IReserve, IToken, ITokenPrice, IUserReserve } from "@/types";
 
 import { RootStore } from "./root";
 
@@ -9,13 +10,12 @@ export type ReserveSlice = {
   tokenData: IToken;
   reservesData: IReserve[] | [];
   userReservesData: IUserReserve[] | [];
+  tokensPrice: ITokenPrice[] | [];
 
-  // eslint-disable-next-line no-unused-vars
   updateTokenData: (token: IToken) => void;
-  // eslint-disable-next-line no-unused-vars
   updateReservesData: (reserves: IReserve[]) => void;
-  // eslint-disable-next-line no-unused-vars
   updateUserReservesData: (reserves: IUserReserve[]) => void;
+  updateTokensPrice: (prices: ITokenPrice[]) => void;
 };
 
 export const createReserveSlice: StateCreator<
@@ -27,8 +27,10 @@ export const createReserveSlice: StateCreator<
   tokenData: POOL_TOKENS.idrx,
   reservesData: [],
   userReservesData: [],
+  tokensPrice: [],
 
   updateTokenData: (token) => set({ tokenData: token }),
   updateReservesData: (reserves) => set({ reservesData: reserves }),
   updateUserReservesData: (reserves) => set({ userReservesData: reserves }),
+  updateTokensPrice: (prices) => set({ tokensPrice: prices }),
 });

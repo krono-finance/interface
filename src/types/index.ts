@@ -68,3 +68,8 @@ export interface IUserReserve {
   principalStableDebt: bigint;
   stableBorrowLastUpdateTimestamp: bigint;
 }
+
+export interface ITokenPrice {
+  symbol: string;
+  price: string;
+}
