@@ -71,3 +71,33 @@ export const formatNumber = (
     return "Error";
   }
 };
+
+export const formatTokenValue = (value: BigNumber): string => {
+  if (value.isNaN() || !value.isFinite() || value.isZero()) return "0";
+
+  const thresholds = [
+    { value: new BigNumber("1e15"), suffix: "Q" }, // Quadrillion
+    { value: new BigNumber("1e12"), suffix: "T" }, // Trillion
+    { value: new BigNumber("1e9"), suffix: "B" }, // Billion
+    { value: new BigNumber("1e6"), suffix: "M" }, // Million
+    { value: new BigNumber("1e3"), suffix: "K" }, // Thousand
+  ];
+
+  // Handle large number suffix formatting
+  for (const t of thresholds) {
+    if (value.gte(t.value)) {
+      return value.dividedBy(t.value).toFixed(2) + t.suffix;
+    }
+  }
+
+  // Handle decimal precision based on size
+  if (value.gte(1)) {
+    return value.toFixed(2); // Large enough, like ETH/USDC val
+  }
+
+  if (value.gte(0.0001)) {
+    return value.toFixed(4); // Mid-range decimals
+  }
+
+  return value.toFixed(6); // Small value, like IDR or low ETH fraction
+};

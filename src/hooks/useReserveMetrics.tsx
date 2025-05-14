@@ -11,8 +11,8 @@ interface ReserveMetrics {
   ltv: string;
   supplyAPY: string;
   borrowAPY: string;
-  supplyInUSD: string;
-  borrowInUSD: string;
+  supplyInUSD: BigNumber;
+  borrowInUSD: BigNumber;
 }
 
 export const useReserveMetrics = (
@@ -55,8 +55,8 @@ export const useReserveMetrics = (
       .toFixed(2);
 
     // USD values
-    const supplyInUSD = totalSupply.times(priceUSD).toFormat(2);
-    const borrowInUSD = debt.times(priceUSD).toFormat(2);
+    const supplyInUSD = totalSupply.times(priceUSD);
+    const borrowInUSD = debt.times(priceUSD);
 
     return {
       totalSupply,

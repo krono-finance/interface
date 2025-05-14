@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import CircularProgressBar from "@/components/Progress/CircularProgressBar";
 import { useReserveMetrics } from "@/hooks/useReserveMetrics";
+import { formatTokenValue } from "@/lib/utils";
 import { IReserve, IToken, ITokenPrice } from "@/types";
 
 interface LendingAssetRowProps {
@@ -36,8 +37,6 @@ const LendingAssetRow = ({
     supplyInUSD,
     borrowInUSD,
   } = useReserveMetrics(reserve, tokenPrice);
-
-  // console.log(tokensPrice);
 
   return (
     <Link
@@ -73,8 +72,10 @@ const LendingAssetRow = ({
         className="flex h-20 w-full flex-col items-center justify-center gap-0.5 px-6"
         style={{ minWidth: headers[2].minWidth }}
       >
-        <p className="font-semibold">{totalSupply.toFormat()}</p>
-        <p className="text-tertiary text-xs font-medium">${supplyInUSD}</p>
+        <p className="font-semibold">{formatTokenValue(totalSupply)}</p>
+        <p className="text-tertiary text-xs font-medium">
+          ${formatTokenValue(supplyInUSD)}
+        </p>
       </div>
 
       {/* Supply APY */}
@@ -93,8 +94,10 @@ const LendingAssetRow = ({
         className="flex h-20 w-full flex-col items-center justify-center gap-0.5 px-6"
         style={{ minWidth: headers[4].minWidth }}
       >
-        <p className="font-semibold">{totalBorrow.toFormat()}</p>
-        <p className="text-tertiary text-xs font-medium">${borrowInUSD}</p>
+        <p className="font-semibold">{formatTokenValue(totalBorrow)}</p>
+        <p className="text-tertiary text-xs font-medium">
+          ${formatTokenValue(borrowInUSD)}
+        </p>
       </div>
 
       {/* Borrow APY */}
