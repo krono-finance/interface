@@ -65,7 +65,7 @@ const ReserveHeader = () => {
             </div>
             <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span className="text-tertiary">$</span>
-              <span>{formatTokenValue(reserve.totalSupply)}</span>
+              <span>{formatTokenValue(reserve.supplyInUSD)}</span>
             </p>
           </div>
           <div id="available-liquidity">
@@ -74,7 +74,11 @@ const ReserveHeader = () => {
             </div>
             <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span className="text-tertiary">$</span>
-              <span>{formatTokenValue(reserve.availableLiquidity)}</span>
+              <span>
+                {formatTokenValue(
+                  reserve.availableLiquidity.times(reserve.tokenPrice),
+                )}
+              </span>
             </p>
           </div>
           <div id="utilization-rate">
