@@ -26,7 +26,7 @@ const AppInitializer = () => {
   useEffect(() => {
     if (!pricesInEth || pricesInEth.length !== poolList.length) return;
 
-    const WEI_IN_ETH = new BigNumber("1e18");
+    const WEI_IN_ETH = new BigNumber(10 ** 18);
     const ethPriceBN = new BigNumber(2600);
 
     const formatted: ITokenPrice[] = pricesInEth.map((priceBigInt, index) => {
@@ -35,11 +35,9 @@ const AppInitializer = () => {
       const priceInEth = priceBN.div(WEI_IN_ETH);
       const priceInUSD = priceInEth.multipliedBy(ethPriceBN);
 
-      const decimals = token.symbol === "IDRX" ? 6 : 2;
-
       return {
         symbol: token.symbol,
-        price: priceInUSD.toFixed(decimals),
+        price: priceInUSD.toString(),
       };
     });
 
