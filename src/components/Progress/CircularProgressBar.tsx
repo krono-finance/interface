@@ -8,6 +8,7 @@ interface CircularProgressBarProps {
   stroke?: number;
   showPercentage?: boolean;
   textSize?: string;
+  reverseProgressColor?: boolean;
 }
 
 const CircularProgressBar = ({
@@ -16,16 +17,25 @@ const CircularProgressBar = ({
   stroke = 3,
   showPercentage,
   textSize,
+  reverseProgressColor,
 }: CircularProgressBarProps) => {
   const radius = (size - stroke) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (percentage / 100) * circumference;
 
-  const getProgressColor = () => {
+  const normalColor = () => {
     if (percentage > 80) return "#f24868";
     if (percentage > 50) return "#fcd94c";
     return "#2fd9a3";
   };
+
+  const reverseColor = () => {
+    if (percentage > 80) return "#2fd9a3";
+    if (percentage > 50) return "#fcd94c";
+    return "#f24868";
+  };
+
+  const progressColor = reverseProgressColor ? reverseColor() : normalColor();
 
   return (
     <div
@@ -44,7 +54,7 @@ const CircularProgressBar = ({
         />
         <circle
           className={classNames("transition-all duration-500")}
-          stroke={getProgressColor()}
+          stroke={progressColor}
           strokeWidth={stroke}
           fill="transparent"
           r={radius}
@@ -59,7 +69,7 @@ const CircularProgressBar = ({
       {showPercentage && (
         <div
           className="absolute inset-0 flex items-center justify-center font-medium"
-          style={{ color: getProgressColor(), fontSize: textSize }}
+          style={{ color: progressColor, fontSize: textSize }}
         >
           {percentage.toFixed(2)}%
         </div>

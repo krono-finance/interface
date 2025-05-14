@@ -44,7 +44,7 @@ const BorrowInfoPanel = () => {
           <div className="border-border flex h-full flex-col gap-2 rounded-xl border px-3 py-2">
             <span className="text-tertiary text-sm">Reserve Factor</span>
             <p className="font-semibold">
-              {BigNumber(currentReserve.reserveFactor).div(100).toString()}
+              {BigNumber(currentReserve.reserveFactor).div(100).toFixed(2)}
               <span className="text-tertiary">%</span>
             </p>
           </div>

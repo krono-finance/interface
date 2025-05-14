@@ -31,6 +31,7 @@ const SupplyInfoPanel = () => {
                 .toNumber()}
               size={90}
               stroke={5}
+              reverseProgressColor
             />
             <div className="space-y-0.5">
               <p className="text-tertiary text-sm">Total Supplied</p>
