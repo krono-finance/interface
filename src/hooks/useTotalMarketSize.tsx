@@ -40,9 +40,9 @@ const useTotalMarketSize = () => {
   });
 
   return {
-    totalSupplyUSD: totalSupplyUSD.toFormat(2),
-    totalBorrowUSD: totalBorrowUSD.toFormat(2),
-    totalAvailableUSD: totalAvailableUSD.toFormat(2),
+    totalSupplyUSD,
+    totalBorrowUSD,
+    totalAvailableUSD,
   };
 };
 

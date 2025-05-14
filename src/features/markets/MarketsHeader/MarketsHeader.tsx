@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 
 import useTotalMarketSize from "@/hooks/useTotalMarketSize";
+import { formatTokenValue } from "@/lib/utils";
 
 const MarketsHeader = () => {
   const { totalAvailableUSD, totalBorrowUSD, totalSupplyUSD } =
@@ -12,15 +13,15 @@ const MarketsHeader = () => {
   const marketsData = [
     {
       title: "Total supply",
-      value: totalSupplyUSD,
+      value: formatTokenValue(totalSupplyUSD),
     },
     {
       title: "Total borrow",
-      value: totalBorrowUSD,
+      value: formatTokenValue(totalBorrowUSD),
     },
     {
       title: "Total available",
-      value: totalAvailableUSD,
+      value: formatTokenValue(totalAvailableUSD),
     },
   ];
 

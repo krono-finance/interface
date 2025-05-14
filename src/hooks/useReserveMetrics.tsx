@@ -5,6 +5,7 @@ import { BigNumber } from "bignumber.js";
 import { IReserve } from "@/types";
 
 interface ReserveMetrics {
+  availableLiquidity: BigNumber;
   totalSupply: BigNumber;
   totalBorrow: BigNumber;
   utilization: string;
@@ -16,11 +17,13 @@ interface ReserveMetrics {
 }
 
 export const useReserveMetrics = (
-  reserve: IReserve,
+  reserve: IReserve | undefined,
   tokenPrice: string | undefined,
   ethPrice: string = "2600", // Default ETH price (can be dynamic)
-): ReserveMetrics => {
+): ReserveMetrics | undefined => {
   return useMemo(() => {
+    if (!reserve) return undefined;
+
     const decimals = Number(reserve.decimals);
     const priceUSD = BigNumber(
       reserve.symbol === "WETH" ? ethPrice : tokenPrice || "0",
@@ -59,6 +62,7 @@ export const useReserveMetrics = (
     const borrowInUSD = debt.times(priceUSD);
 
     return {
+      availableLiquidity: liquidity,
       totalSupply,
       totalBorrow: debt,
       utilization,

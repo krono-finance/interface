@@ -5,11 +5,35 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import Image from "next/image";
 import Link from "next/link";
 
+import BigNumber from "bignumber.js";
+import { useShallow } from "zustand/shallow";
+
 import Button from "@/components/Button/Button";
+import { useReserveMetrics } from "@/hooks/useReserveMetrics";
+import { formatTokenValue } from "@/lib/utils";
 import { useRootStore } from "@/store/root";
 
 const ReserveHeader = () => {
-  const tokenData = useRootStore((state) => state.tokenData);
+  const [tokenData, tokensPrice, reservesData] = useRootStore(
+    useShallow((state) => [
+      state.tokenData,
+      state.tokensPrice,
+      state.reservesData,
+    ]),
+  );
+  const tokenPrice = tokensPrice.find(
+    (t) => t.symbol === tokenData.symbol,
+  )?.price;
+  const reserve = reservesData.find(
+    (reserve) =>
+      reserve.underlyingAsset.toLowerCase() === tokenData.address.toLowerCase(),
+  );
+
+  console.log(reserve);
+
+  const metrics = useReserveMetrics(reserve, tokenPrice);
+
+  if (!metrics) return null;
 
   return (
     <div className="xs:my-12 my-8 space-y-6">
@@ -58,7 +82,7 @@ const ReserveHeader = () => {
             </div>
             <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span className="text-tertiary">$</span>
-              <span>150.45K</span>
+              <span>{formatTokenValue(metrics.totalSupply)}</span>
             </p>
           </div>
           <div id="available-liquidity">
@@ -67,7 +91,7 @@ const ReserveHeader = () => {
             </div>
             <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span className="text-tertiary">$</span>
-              <span>50.45K</span>
+              <span>{formatTokenValue(metrics.availableLiquidity)}</span>
             </p>
           </div>
           <div id="utilization-rate">
@@ -75,7 +99,7 @@ const ReserveHeader = () => {
               Utilization rate
             </div>
             <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
-              <span>63.55</span>
+              <span>{metrics.utilization}</span>
               <span className="text-tertiary">%</span>
             </p>
           </div>
@@ -85,7 +109,7 @@ const ReserveHeader = () => {
             </div>
             <p className="xs:text-xl space-x-0.5 text-lg font-semibold">
               <span className="text-tertiary">$</span>
-              <span>1.00</span>
+              <span>{formatTokenValue(BigNumber(tokenPrice ?? "0"))}</span>
             </p>
           </div>
         </div>
