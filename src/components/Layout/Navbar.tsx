@@ -21,14 +21,14 @@ export const menus = [
     name: "Strategies",
     link: "/strategies",
   },
-  // {
-  //   name: "Stake",
-  //   link: "/stake",
-  // },
-  // {
-  //   name: "Swap",
-  //   link: "/swap",
-  // },
+  {
+    name: "Stake",
+    link: "/stake",
+  },
+  {
+    name: "Swap",
+    link: "/swap",
+  },
   {
     name: "Faucet",
     link: "/faucet",
@@ -60,8 +60,9 @@ const Navbar = () => {
                   className={classNames(
                     "rounded-lg px-3.5 py-2.5 text-sm font-semibold",
                     "hover:text-primary hover:bg-elevated",
+
                     pathname.includes(menu.link)
-                      ? "text-primary bg-elevated"
+                      ? "!text-primary bg-elevated"
                       : "text-tertiary",
                   )}
                 >
