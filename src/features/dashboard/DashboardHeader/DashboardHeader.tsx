@@ -1,15 +1,28 @@
+"use client";
 import React from "react";
 
 import Image from "next/image";
 
+import BigNumber from "bignumber.js";
+import { useAccount } from "wagmi";
+
+import useUserData from "@/hooks/useUserData";
+import { formatTokenValue } from "@/lib/utils";
+
 const DashboardHeader = () => {
+  const { address } = useAccount();
+
+  const { data } = useUserData(address ?? `0x${""}`);
+
   const headerData = [
     {
       title: "Supply",
       value: (
         <p className="xs:text-xl space-x-0.5 text-lg">
           <span className="text-tertiary">$</span>
-          <span>42.45K</span>
+          <span>
+            {formatTokenValue(data ? data.totalSupplyUSD : BigNumber("0"))}
+          </span>
         </p>
       ),
     },
@@ -18,7 +31,9 @@ const DashboardHeader = () => {
       value: (
         <p className="xs:text-xl space-x-0.5 text-lg">
           <span className="text-tertiary">$</span>
-          <span>20.10K</span>
+          <span>
+            {formatTokenValue(data ? data.totalBorrowUSD : BigNumber("0"))}
+          </span>
         </p>
       ),
     },
@@ -43,7 +58,11 @@ const DashboardHeader = () => {
     {
       title: "Health factor",
       value: (
-        <p className="xs:text-xl text-warning space-x-0.5 text-lg">1.55</p>
+        <p className="xs:text-xl text-warning space-x-0.5 text-lg">
+          {BigNumber(data?.userAccountData.healthFactor ?? "0")
+            .div(10 ** 18)
+            .toFormat(2)}
+        </p>
       ),
     },
   ];

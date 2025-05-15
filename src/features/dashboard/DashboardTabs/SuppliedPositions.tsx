@@ -59,7 +59,7 @@ const SuppliedPositions = () => {
         </header>
         <div className="divide-elevated divide-y text-sm font-medium">
           {poolList.map((token) => (
-            <div key={token.name} className="flex p-4">
+            <div key={token.symbol} className="flex p-4">
               <div className="flex w-full max-w-30 min-w-17.5 items-center gap-2.5">
                 <Image
                   src={token.image}

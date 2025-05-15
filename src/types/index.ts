@@ -73,3 +73,22 @@ export interface ITokenPrice {
   symbol: string;
   price: string;
 }
+
+export interface IUserAccountData {
+  totalCollateralETH: bigint;
+  totalDebtETH: bigint;
+  availableBorrowsETH: bigint;
+  currentLiquidationThreshold: bigint;
+  ltv: bigint;
+  healthFactor: bigint;
+}
+
+export interface IUserReserveData {
+  underlyingAsset: string | Address | `0x${string}`;
+  scaledATokenBalance: bigint;
+  usageAsCollateralEnabledOnUser: boolean;
+  stableBorrowRate: bigint;
+  scaledVariableDebt: bigint;
+  principalStableDebt: bigint;
+  stableBorrowLastUpdateTimestamp: bigint;
+}
