@@ -5,6 +5,7 @@ import { TabPanel } from "@headlessui/react";
 import TabMenu from "@/components/TabMenu/TabMenu";
 
 import BorrowInfoPanel from "./BorrowInfoPanel";
+import InterestRateModel from "./InterestRateModelPanel";
 import SupplyBorrowPanel from "./SupplyBorrowPanel";
 import SupplyInfoPanel from "./SupplyInfoPanel";
 
@@ -29,6 +30,7 @@ const ReserveTabs = () => {
         <TabPanel as="div" className={"space-y-3"}>
           <SupplyInfoPanel />
           <BorrowInfoPanel />
+          <InterestRateModel />
         </TabPanel>
       </TabMenu>
     </div>

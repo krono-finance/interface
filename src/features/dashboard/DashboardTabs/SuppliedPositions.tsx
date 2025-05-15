@@ -140,7 +140,7 @@ const SuppliedPositions = () => {
                     <SwitchCustom checked={checked} onChange={() => {}} />
                   </div>
                   <div className="flex w-full max-w-40 min-w-40 items-center justify-end gap-2">
-                    <Button
+                    {/* <Button
                       variant="secondary"
                       className="!px-3 !py-2"
                       onClick={() => {
@@ -149,10 +149,10 @@ const SuppliedPositions = () => {
                       }}
                     >
                       Supply
-                    </Button>
+                    </Button> */}
                     <Button
-                      variant="tertiary"
-                      className="!px-3 !py-2"
+                      variant="secondary"
+                      className="w-full !px-3 !py-2"
                       onClick={() => {
                         openWithdraw();
                         updateTokenData(token);
