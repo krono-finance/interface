@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 
 import BigNumber from "bignumber.js";
+import classNames from "classnames";
 import { useAccount } from "wagmi";
 
 import useUserData from "@/hooks/useUserData";
@@ -58,10 +59,30 @@ const DashboardHeader = () => {
     {
       title: "Health factor",
       value: (
-        <p className="xs:text-xl text-warning space-x-0.5 text-lg">
-          {BigNumber(data?.userAccountData.healthFactor ?? "0")
-            .div(10 ** 18)
-            .toFormat(2)}
+        <p
+          className={classNames(
+            "xs:text-xl space-x-0.5 text-lg",
+            !data
+              ? ""
+              : data.userAccountData.totalDebtETH === BigInt(0)
+                ? "text-success"
+                : BigNumber(data.userAccountData.healthFactor.toString())
+                      .div(10 ** 18)
+                      .isGreaterThan(1.5)
+                  ? "text-success"
+                  : BigNumber(data.userAccountData.healthFactor.toString())
+                        .div(10 ** 18)
+                        .isGreaterThan(1.0)
+                    ? "text-warning"
+                    : "text-error",
+          )}
+        >
+          {data && data.userAccountData.totalDebtETH === BigInt(0)
+            ? "∞"
+            : data &&
+              BigNumber(data.userAccountData.healthFactor.toString())
+                .div(10 ** 18)
+                .toFormat(2)}
         </p>
       ),
     },

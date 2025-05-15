@@ -14,6 +14,8 @@ type ParsedUserData = {
   borrowPowerUsed: BigNumber | 0;
   totalSupplyUSD: BigNumber;
   totalBorrowUSD: BigNumber;
+  totalSupplyAPY: BigNumber;
+  totalBorrowAPY: BigNumber;
   supplied: IUserReserveData[];
   borrowed: IUserReserveData[];
 };
@@ -63,30 +65,72 @@ export const useUserData = (user: Address | undefined) => {
 
       let totalSupplyUSD = new BigNumber(0);
       let totalBorrowUSD = new BigNumber(0);
+      let weightedSupplyAPY = new BigNumber(0);
+      let weightedBorrowAPY = new BigNumber(0);
 
-      for (const reserve of reserves) {
-        const tokenPriceStr =
-          tokensPrice.find((t) => t.symbol === reserve.symbol)?.price || "0";
-        const priceUSD = new BigNumber(tokenPriceStr);
-        const decimals = Number(reserve.decimals);
+      for (const userReserve of supplied) {
+        const reserveMeta = reserves.find(
+          (r) =>
+            r.underlyingAsset.toLowerCase() ===
+            userReserve.underlyingAsset.toLowerCase(),
+        );
+        if (!reserveMeta) continue;
 
-        const availableLiquidity = new BigNumber(
-          reserve.availableLiquidity.toString(),
+        const price = new BigNumber(
+          tokensPrice.find((t) => t.symbol === reserveMeta.symbol)?.price ||
+            "0",
+        );
+        const decimals = Number(reserveMeta.decimals);
+
+        const userSupply = new BigNumber(
+          userReserve.scaledATokenBalance.toString(),
         ).dividedBy(10 ** decimals);
-
-        const totalScaledVariableDebt = new BigNumber(
-          reserve.totalScaledVariableDebt.toString(),
-        ).dividedBy(10 ** decimals);
-
-        const supplyUSD = availableLiquidity
-          .plus(totalScaledVariableDebt)
-          .multipliedBy(priceUSD);
-
-        const borrowUSD = totalScaledVariableDebt.multipliedBy(priceUSD);
-
+        const supplyUSD = userSupply.times(price);
         totalSupplyUSD = totalSupplyUSD.plus(supplyUSD);
-        totalBorrowUSD = totalBorrowUSD.plus(borrowUSD);
+
+        const supplyAPY = new BigNumber(reserveMeta.liquidityRate)
+          .div(1e27)
+          .times(100);
+        weightedSupplyAPY = weightedSupplyAPY.plus(supplyAPY.times(supplyUSD));
       }
+
+      for (const userReserve of borrowed) {
+        const reserveMeta = reserves.find(
+          (r) =>
+            r.underlyingAsset.toLowerCase() ===
+            userReserve.underlyingAsset.toLowerCase(),
+        );
+        if (!reserveMeta) continue;
+
+        const price = new BigNumber(
+          tokensPrice.find((t) => t.symbol === reserveMeta.symbol)?.price ||
+            "0",
+        );
+        const decimals = Number(reserveMeta.decimals);
+
+        const variableDebt = new BigNumber(
+          userReserve.scaledVariableDebt.toString(),
+        ).dividedBy(10 ** decimals);
+        const stableDebt = new BigNumber(
+          userReserve.principalStableDebt.toString(),
+        ).dividedBy(10 ** decimals);
+
+        const totalDebt = variableDebt.plus(stableDebt);
+        const debtUSD = totalDebt.times(price);
+        totalBorrowUSD = totalBorrowUSD.plus(debtUSD);
+
+        const borrowAPY = new BigNumber(reserveMeta.variableBorrowRate)
+          .div(1e27)
+          .times(100);
+        weightedBorrowAPY = weightedBorrowAPY.plus(borrowAPY.times(debtUSD));
+      }
+
+      const totalSupplyAPY = totalSupplyUSD.isZero()
+        ? new BigNumber(0)
+        : weightedSupplyAPY.dividedBy(totalSupplyUSD);
+      const totalBorrowAPY = totalBorrowUSD.isZero()
+        ? new BigNumber(0)
+        : weightedBorrowAPY.dividedBy(totalBorrowUSD);
 
       return {
         userAccountData: accountData,
@@ -96,6 +140,8 @@ export const useUserData = (user: Address | undefined) => {
         ),
         totalSupplyUSD,
         totalBorrowUSD,
+        totalSupplyAPY,
+        totalBorrowAPY,
         supplied,
         borrowed,
       };

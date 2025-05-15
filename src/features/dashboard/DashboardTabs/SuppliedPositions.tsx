@@ -27,12 +27,6 @@ const SuppliedPositions = () => {
 
   const { data, isSuccess } = useUserData(address);
 
-  const totalAPY = reservesData.reduce((acc, reserve) => {
-    const supplyAPY = new BigNumber(reserve.liquidityRate).div(1e27).times(100);
-
-    return acc.plus(supplyAPY);
-  }, new BigNumber(0));
-
   return (
     <div className="border-elevated h-fit overflow-hidden rounded-xl border">
       <section className="bg-surface space-y-5 p-4">
@@ -52,7 +46,7 @@ const SuppliedPositions = () => {
           <div className="border-border flex gap-1 rounded-2xl border px-2.5 py-1">
             <p className="text-tertiary">APY</p>
             <p className="font-medium">
-              {totalAPY.toFixed(2)}
+              {data?.totalSupplyAPY.toFixed(2)}
               <span className="text-tertiary">%</span>
             </p>
           </div>
@@ -71,17 +65,17 @@ const SuppliedPositions = () => {
         </div>
       </section>
 
-      <section>
-        <header className="bg-surface text-tertiary border-elevated flex h-full w-full border-b px-4 py-2 text-sm font-medium">
-          <div className="w-full max-w-30 min-w-17.5">Asset</div>
-          <div className="w-full min-w-17.5 text-center">Balance</div>
-          <div className="w-full min-w-17.5 text-center">APY</div>
-          <div className="w-full min-w-17.5 text-center">Collateral</div>
-          <div className="w-full max-w-40 min-w-40 text-center"></div>
-        </header>
-        <div className="divide-elevated divide-y text-sm font-medium">
-          {data &&
-            data.supplied.map((supply) => {
+      {data && data.supplied.length > 0 ? (
+        <section>
+          <header className="bg-surface text-tertiary border-elevated flex h-full w-full border-b px-4 py-2 text-sm font-medium">
+            <div className="w-full max-w-30 min-w-17.5">Asset</div>
+            <div className="w-full min-w-17.5 text-center">Balance</div>
+            <div className="w-full min-w-17.5 text-center">APY</div>
+            <div className="w-full min-w-17.5 text-center">Collateral</div>
+            <div className="w-full max-w-40 min-w-40 text-center"></div>
+          </header>
+          <div className="divide-elevated divide-y text-sm font-medium">
+            {data.supplied.map((supply) => {
               const token = poolList.find(
                 (t) =>
                   t.address.toLowerCase() ===
@@ -163,8 +157,18 @@ const SuppliedPositions = () => {
                 </div>
               );
             })}
-        </div>
-      </section>
+          </div>
+        </section>
+      ) : (
+        <section className="border-elevated flex items-center justify-center border-t py-10">
+          <div className="flex flex-col items-center">
+            <p className="text-xl font-semibold">No supplied assets</p>
+            <p className="text-tertiary mb-2 text-sm font-medium">
+              You have no supplied assets.
+            </p>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
