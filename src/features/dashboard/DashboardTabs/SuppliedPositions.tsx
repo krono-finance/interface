@@ -1,22 +1,38 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 
 import Image from "next/image";
 
+import BigNumber from "bignumber.js";
+import { useAccount } from "wagmi";
 import { useShallow } from "zustand/shallow";
 
 import Button from "@/components/Button/Button";
 import SwitchCustom from "@/components/Switch/SwitchCustom";
 import { poolList } from "@/constant/poolTokenData";
+import useUserData from "@/hooks/useUserData";
+import { formatTokenValue } from "@/lib/utils";
 import { useRootStore } from "@/store/root";
 
 const SuppliedPositions = () => {
-  const [openSupply, openWithdraw] = useRootStore(
-    useShallow((state) => [state.openSupply, state.openWithdraw]),
+  const [openSupply, openWithdraw, tokensPrice, reservesData] = useRootStore(
+    useShallow((state) => [
+      state.openSupply,
+      state.openWithdraw,
+      state.tokensPrice,
+      state.reservesData,
+    ]),
   );
   const updateTokenData = useRootStore((state) => state.updateTokenData);
+  const { address } = useAccount();
 
-  const [checked, setChecked] = useState(false);
+  const { data } = useUserData(address ?? `0x${""}`);
+
+  const totalAPY = reservesData.reduce((acc, reserve) => {
+    const supplyAPY = new BigNumber(reserve.liquidityRate).div(1e27).times(100);
+
+    return acc.plus(supplyAPY);
+  }, new BigNumber(0));
 
   return (
     <div className="border-elevated h-fit overflow-hidden rounded-xl border">
@@ -29,23 +45,26 @@ const SuppliedPositions = () => {
           <div className="border-border flex gap-1 rounded-2xl border px-2.5 py-1">
             <p className="text-tertiary">Balance</p>
             <p className="font-medium">
-              <span className="text-tertiary">$</span>32.25K
+              <span className="text-tertiary">$</span>
+              {formatTokenValue(data?.totalSupplyUSD ?? BigNumber(0))}
             </p>
           </div>
 
           <div className="border-border flex gap-1 rounded-2xl border px-2.5 py-1">
             <p className="text-tertiary">APY</p>
             <p className="font-medium">
-              4.55<span className="text-tertiary">%</span>
+              {totalAPY.toFixed(2)}
+              <span className="text-tertiary">%</span>
             </p>
           </div>
 
-          <div className="border-border flex gap-1 rounded-2xl border px-2.5 py-1">
+          {/* <div className="border-border flex gap-1 rounded-2xl border px-2.5 py-1">
             <p className="text-tertiary">Collateral</p>
             <p className="font-medium">
-              <span className="text-tertiary">$</span>12.20K
+              <span className="text-tertiary">$</span>
+              {collateralBalance}
             </p>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -58,59 +77,89 @@ const SuppliedPositions = () => {
           <div className="w-full max-w-40 min-w-40 text-center"></div>
         </header>
         <div className="divide-elevated divide-y text-sm font-medium">
-          {poolList.map((token) => (
-            <div key={token.symbol} className="flex p-4">
-              <div className="flex w-full max-w-30 min-w-17.5 items-center gap-2.5">
-                <Image
-                  src={token.image}
-                  alt={token.name}
-                  width={64}
-                  height={64}
-                  className="size-8"
-                />
-                <span className="font-semibold">{token.symbol}</span>
-              </div>
-              <div className="flex w-full min-w-17.5 items-center justify-center text-center">
-                <div>
-                  <p>32.25K</p>
-                  <p className="text-tertiary text-xs">$32.25K</p>
+          {data &&
+            data.supplied.map((supply) => {
+              const token = poolList.find(
+                (t) =>
+                  t.address.toLowerCase() ===
+                  supply.underlyingAsset.toLowerCase(),
+              );
+              const reserve = reservesData.find(
+                (r) => r.symbol === token?.symbol,
+              );
+
+              if (!token || !reserve) return null;
+
+              const checked = supply.usageAsCollateralEnabledOnUser;
+
+              const tokenBalance = BigNumber(supply.scaledATokenBalance).div(
+                10 ** token.decimals,
+              );
+
+              const tokenPrice = tokensPrice.find(
+                (t) => t.symbol === token.symbol,
+              )?.price;
+              const balanceUSD = tokenBalance.multipliedBy(tokenPrice ?? "0");
+
+              const supplyAPY = BigNumber(reserve.liquidityRate)
+                .div(10 ** 27)
+                .times(100)
+                .toFixed(2);
+
+              return (
+                <div key={token.symbol} className="flex p-4">
+                  <div className="flex w-full max-w-30 min-w-17.5 items-center gap-2.5">
+                    <Image
+                      src={token.image}
+                      alt={token.name}
+                      width={64}
+                      height={64}
+                      className="size-8"
+                    />
+                    <span className="font-semibold">{token.symbol}</span>
+                  </div>
+                  <div className="flex w-full min-w-17.5 items-center justify-center text-center">
+                    <div>
+                      <p>{formatTokenValue(tokenBalance)}</p>
+                      <p className="text-tertiary text-xs">
+                        ${formatTokenValue(balanceUSD)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex w-full min-w-17.5 items-center justify-center text-center">
+                    <p>
+                      {supplyAPY}
+                      <span className="text-tertiary">%</span>
+                    </p>
+                  </div>
+                  <div className="flex w-full min-w-17.5 items-center justify-center text-center">
+                    <SwitchCustom checked={checked} onChange={() => {}} />
+                  </div>
+                  <div className="flex w-full max-w-40 min-w-40 items-center justify-end gap-2">
+                    <Button
+                      variant="secondary"
+                      className="!px-3 !py-2"
+                      onClick={() => {
+                        openSupply();
+                        updateTokenData(token);
+                      }}
+                    >
+                      Supply
+                    </Button>
+                    <Button
+                      variant="tertiary"
+                      className="!px-3 !py-2"
+                      onClick={() => {
+                        openWithdraw();
+                        updateTokenData(token);
+                      }}
+                    >
+                      Withdraw
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div className="flex w-full min-w-17.5 items-center justify-center text-center">
-                <p>
-                  2.55<span className="text-tertiary">%</span>
-                </p>
-              </div>
-              <div className="flex w-full min-w-17.5 items-center justify-center text-center">
-                <SwitchCustom
-                  checked={checked}
-                  onChange={() => setChecked(!checked)}
-                />
-              </div>
-              <div className="flex w-full max-w-40 min-w-40 items-center justify-end gap-2">
-                <Button
-                  variant="secondary"
-                  className="!px-3 !py-2"
-                  onClick={() => {
-                    openSupply();
-                    updateTokenData(token);
-                  }}
-                >
-                  Supply
-                </Button>
-                <Button
-                  variant="tertiary"
-                  className="!px-3 !py-2"
-                  onClick={() => {
-                    openWithdraw();
-                    updateTokenData(token);
-                  }}
-                >
-                  Withdraw
-                </Button>
-              </div>
-            </div>
-          ))}
+              );
+            })}
         </div>
       </section>
     </div>
