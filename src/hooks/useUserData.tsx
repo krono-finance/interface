@@ -45,6 +45,10 @@ export const useUserData = (user: Address | `0x${string}`) => {
         getUserReservesData(user),
       ]);
 
+      if (!reserves.length || !tokensPrice.length) {
+        throw new Error("Reserves or token prices not loaded yet");
+      }
+
       const supplied = reservesData.filter(
         (r) => r.scaledATokenBalance > BigInt(0),
       );

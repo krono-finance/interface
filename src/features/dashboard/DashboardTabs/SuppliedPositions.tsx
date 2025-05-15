@@ -26,7 +26,7 @@ const SuppliedPositions = () => {
   const updateTokenData = useRootStore((state) => state.updateTokenData);
   const { address } = useAccount();
 
-  const { data } = useUserData(address ?? `0x${""}`);
+  const { data, isSuccess } = useUserData(address ?? `0x${""}`);
 
   const totalAPY = reservesData.reduce((acc, reserve) => {
     const supplyAPY = new BigNumber(reserve.liquidityRate).div(1e27).times(100);
@@ -46,7 +46,7 @@ const SuppliedPositions = () => {
             <p className="text-tertiary">Balance</p>
             <p className="font-medium">
               <span className="text-tertiary">$</span>
-              {formatTokenValue(data?.totalSupplyUSD ?? BigNumber(0))}
+              {formatTokenValue(isSuccess ? data.totalSupplyUSD : BigNumber(0))}
             </p>
           </div>
 
@@ -58,13 +58,17 @@ const SuppliedPositions = () => {
             </p>
           </div>
 
-          {/* <div className="border-border flex gap-1 rounded-2xl border px-2.5 py-1">
-            <p className="text-tertiary">Collateral</p>
+          <div className="border-border flex gap-1 rounded-2xl border px-2.5 py-1">
+            <p className="text-tertiary">Available</p>
             <p className="font-medium">
               <span className="text-tertiary">$</span>
-              {collateralBalance}
+              {formatTokenValue(
+                isSuccess
+                  ? data.totalSupplyUSD.minus(data.totalBorrowUSD)
+                  : BigNumber(0),
+              )}
             </p>
-          </div> */}
+          </div>
         </div>
       </section>
 

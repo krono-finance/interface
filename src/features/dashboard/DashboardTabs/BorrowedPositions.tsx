@@ -3,17 +3,37 @@ import React from "react";
 
 import Image from "next/image";
 
+import BigNumber from "bignumber.js";
+import { useAccount } from "wagmi";
 import { useShallow } from "zustand/shallow";
 
 import Button from "@/components/Button/Button";
 import { poolList } from "@/constant/poolTokenData";
+import useUserData from "@/hooks/useUserData";
+import { formatTokenValue } from "@/lib/utils";
 import { useRootStore } from "@/store/root";
 
 const BorrowedPositions = () => {
-  const [openBorrow, openRepay] = useRootStore(
-    useShallow((state) => [state.openBorrow, state.openRepay]),
+  const [openBorrow, openRepay, tokensPrice, reservesData] = useRootStore(
+    useShallow((state) => [
+      state.openBorrow,
+      state.openRepay,
+      state.tokensPrice,
+      state.reservesData,
+    ]),
   );
   const updateTokenData = useRootStore((state) => state.updateTokenData);
+  const { address } = useAccount();
+
+  const { data, isSuccess } = useUserData(address ?? `0x${""}`);
+
+  const totalAPY = reservesData.reduce((acc, reserve) => {
+    const borrowAPY = new BigNumber(reserve.variableBorrowRate)
+      .div(1e27)
+      .times(100);
+
+    return acc.plus(borrowAPY);
+  }, new BigNumber(0));
 
   return (
     <div className="border-elevated h-fit overflow-hidden rounded-xl border">
@@ -26,21 +46,24 @@ const BorrowedPositions = () => {
           <div className="border-border flex gap-1 rounded-2xl border px-2.5 py-1">
             <p className="text-tertiary">Balance</p>
             <p className="font-medium">
-              <span className="text-tertiary">$</span>32.25K
+              <span className="text-tertiary">$</span>
+              {formatTokenValue(isSuccess ? data.totalBorrowUSD : BigNumber(0))}
             </p>
           </div>
 
           <div className="border-border flex gap-1 rounded-2xl border px-2.5 py-1">
             <p className="text-tertiary">APY</p>
             <p className="font-medium">
-              4.55<span className="text-tertiary">%</span>
+              {totalAPY.toFixed(2)}
+              <span className="text-tertiary">%</span>
             </p>
           </div>
 
           <div className="border-border flex gap-1 rounded-2xl border px-2.5 py-1">
             <p className="text-tertiary">Borrow power used</p>
             <p className="font-medium">
-              65.25<span className="text-tertiary">%</span>
+              {isSuccess ? data.borrowPowerUsed.toFixed(2) : "0.00"}
+              <span className="text-tertiary">%</span>
             </p>
           </div>
         </div>
@@ -54,53 +77,83 @@ const BorrowedPositions = () => {
           <div className="w-full max-w-40 min-w-40 text-center"></div>
         </header>
         <div className="divide-elevated divide-y text-sm font-medium">
-          {poolList.slice(3, 5).map((token) => (
-            <div key={token.name} className="flex p-4">
-              <div className="flex w-full max-w-32.5 min-w-17.5 items-center gap-2.5">
-                <Image
-                  src={token.image}
-                  alt={token.name}
-                  width={64}
-                  height={64}
-                  className="size-8"
-                />
-                <span className="font-semibold">{token.symbol}</span>
-              </div>
-              <div className="flex w-full min-w-17.5 items-center justify-center text-center">
-                <div>
-                  <p>32.25K</p>
-                  <p className="text-tertiary text-xs">$32.25K</p>
+          {data &&
+            data.borrowed.map((borrow) => {
+              const token = poolList.find(
+                (t) =>
+                  t.address.toLowerCase() ===
+                  borrow.underlyingAsset.toLowerCase(),
+              );
+              const reserve = reservesData.find(
+                (r) => r.symbol === token?.symbol,
+              );
+
+              if (!token || !reserve) return null;
+              const tokenBalance = BigNumber(borrow.scaledVariableDebt).div(
+                10 ** token.decimals,
+              );
+
+              const tokenPrice = tokensPrice.find(
+                (t) => t.symbol === token.symbol,
+              )?.price;
+              const balanceUSD = tokenBalance.multipliedBy(tokenPrice ?? "0");
+
+              const borowAPY = BigNumber(reserve.variableBorrowRate)
+                .div(10 ** 27)
+                .times(100)
+                .toFixed(2);
+
+              return (
+                <div key={token.name} className="flex p-4">
+                  <div className="flex w-full max-w-32.5 min-w-17.5 items-center gap-2.5">
+                    <Image
+                      src={token.image}
+                      alt={token.name}
+                      width={64}
+                      height={64}
+                      className="size-8"
+                    />
+                    <span className="font-semibold">{token.symbol}</span>
+                  </div>
+                  <div className="flex w-full min-w-17.5 items-center justify-center text-center">
+                    <div>
+                      <p>{formatTokenValue(tokenBalance)}</p>
+                      <p className="text-tertiary text-xs">
+                        ${formatTokenValue(balanceUSD)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex w-full min-w-17.5 items-center justify-center text-center">
+                    <p>
+                      {borowAPY}
+                      <span className="text-tertiary">%</span>
+                    </p>
+                  </div>
+                  <div className="flex w-full max-w-40 min-w-40 items-center justify-end gap-2">
+                    <Button
+                      variant="secondary"
+                      className="!py-2"
+                      onClick={() => {
+                        openBorrow();
+                        updateTokenData(token);
+                      }}
+                    >
+                      Borrow
+                    </Button>
+                    <Button
+                      variant="tertiary"
+                      className="!py-2"
+                      onClick={() => {
+                        openRepay();
+                        updateTokenData(token);
+                      }}
+                    >
+                      Repay
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div className="flex w-full min-w-17.5 items-center justify-center text-center">
-                <p>
-                  2.55<span className="text-tertiary">%</span>
-                </p>
-              </div>
-              <div className="flex w-full max-w-40 min-w-40 items-center justify-end gap-2">
-                <Button
-                  variant="secondary"
-                  className="!py-2"
-                  onClick={() => {
-                    openBorrow();
-                    updateTokenData(token);
-                  }}
-                >
-                  Borrow
-                </Button>
-                <Button
-                  variant="tertiary"
-                  className="!py-2"
-                  onClick={() => {
-                    openRepay();
-                    updateTokenData(token);
-                  }}
-                >
-                  Repay
-                </Button>
-              </div>
-            </div>
-          ))}
+              );
+            })}
         </div>
       </section>
     </div>
