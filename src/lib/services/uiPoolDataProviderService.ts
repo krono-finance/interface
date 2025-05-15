@@ -36,7 +36,7 @@ export const getUserReservesData = async (user: Address) => {
 
     return data as IUserReserveData[];
   } catch (error) {
-    console.error(`Error in getReservesData: ${error}`);
+    console.error(`Error in getUserReservesData: ${error}`);
     throw error;
   }
 };

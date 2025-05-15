@@ -15,9 +15,8 @@ import { formatTokenValue } from "@/lib/utils";
 import { useRootStore } from "@/store/root";
 
 const SuppliedPositions = () => {
-  const [openSupply, openWithdraw, tokensPrice, reservesData] = useRootStore(
+  const [openWithdraw, tokensPrice, reservesData] = useRootStore(
     useShallow((state) => [
-      state.openSupply,
       state.openWithdraw,
       state.tokensPrice,
       state.reservesData,
@@ -26,7 +25,7 @@ const SuppliedPositions = () => {
   const updateTokenData = useRootStore((state) => state.updateTokenData);
   const { address } = useAccount();
 
-  const { data, isSuccess } = useUserData(address ?? `0x${""}`);
+  const { data, isSuccess } = useUserData(address);
 
   const totalAPY = reservesData.reduce((acc, reserve) => {
     const supplyAPY = new BigNumber(reserve.liquidityRate).div(1e27).times(100);

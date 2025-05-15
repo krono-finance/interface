@@ -32,7 +32,7 @@ const calculateBorrowPowerUsed = (
     .multipliedBy(100);
 };
 
-export const useUserData = (user: Address | `0x${string}`) => {
+export const useUserData = (user: Address | undefined) => {
   const [reserves, tokensPrice] = useRootStore(
     useShallow((state) => [state.reservesData, state.tokensPrice]),
   );
@@ -40,6 +40,10 @@ export const useUserData = (user: Address | `0x${string}`) => {
   return useQuery<ParsedUserData>({
     queryKey: ["user-data", user],
     queryFn: async () => {
+      if (!user) {
+        throw new Error("User address is not defined");
+      }
+
       const [accountData, reservesData] = await Promise.all([
         getUserAccountData(user),
         getUserReservesData(user),

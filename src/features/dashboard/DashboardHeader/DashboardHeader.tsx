@@ -12,7 +12,7 @@ import { formatTokenValue } from "@/lib/utils";
 const DashboardHeader = () => {
   const { address } = useAccount();
 
-  const { data } = useUserData(address ?? `0x${""}`);
+  const { data } = useUserData(address);
 
   const headerData = [
     {
@@ -46,15 +46,15 @@ const DashboardHeader = () => {
     //     </p>
     //   ),
     // },
-    {
-      title: "Net APY",
-      value: (
-        <p className="xs:text-xl space-x-0.5 text-lg">
-          <span>2.55</span>
-          <span className="text-tertiary">%</span>
-        </p>
-      ),
-    },
+    // {
+    //   title: "Net APY",
+    //   value: (
+    //     <p className="xs:text-xl space-x-0.5 text-lg">
+    //       <span>2.55</span>
+    //       <span className="text-tertiary">%</span>
+    //     </p>
+    //   ),
+    // },
     {
       title: "Health factor",
       value: (
