@@ -9,13 +9,14 @@ import { waitForTransactionReceipt } from "viem/actions";
 import { useAccount, useWalletClient } from "wagmi";
 
 import Button from "@/components/Button/Button";
+import CustomConnectButton from "@/components/Web3Provider/CustomConnectButton";
 import { POOL_TOKENS, poolList } from "@/constant/poolTokenData";
 import { batchClaimFaucets } from "@/lib/services/faucetsService";
 import { transformAddress } from "@/lib/utils";
 
 const FaucetPage = () => {
   const { data: walletClient } = useWalletClient();
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
 
   const [isClaiming, setIsClaiming] = useState(false);
 
@@ -127,13 +128,17 @@ const FaucetPage = () => {
               </div>
             ))}
           </div>
-          <Button
-            className="mt-5 mb-2 w-full"
-            disabled={isClaiming}
-            onClick={handleBatchClaim}
-          >
-            Request Testnet Tokens
-          </Button>
+          {isConnected ? (
+            <Button
+              className="mt-5 mb-2 w-full"
+              disabled={isClaiming}
+              onClick={handleBatchClaim}
+            >
+              Request Testnet Tokens
+            </Button>
+          ) : (
+            <CustomConnectButton className="mt-5 mb-1 w-full" />
+          )}
         </div>
       </div>
     </div>

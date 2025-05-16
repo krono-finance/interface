@@ -3,13 +3,14 @@ import React from "react";
 import Image from "next/image";
 
 import { ConnectButton } from "@xellar/kit";
+import classNames from "classnames";
 
 import useWindowSize from "@/hooks/useWindowSize";
 import { transformAddress } from "@/lib/utils";
 
 import Button from "../Button/Button";
 
-const CustomConnectButton = () => {
+const CustomConnectButton = ({ className }: { className?: string }) => {
   const { isMobile } = useWindowSize();
 
   return (
@@ -28,7 +29,7 @@ const CustomConnectButton = () => {
               <Button
                 onClick={openConnectModal}
                 variant="secondary"
-                className="!py-2.5"
+                className={classNames("!py-2.5", className)}
               >
                 Connect Wallet
               </Button>
