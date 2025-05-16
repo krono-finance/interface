@@ -1,4 +1,4 @@
-import { IToken } from "@/types";
+import { IInterestRateStrategy, IToken } from "@/types";
 
 export const POOL_TOKENS: {
   idrx: IToken;
@@ -101,4 +101,56 @@ export const getTokenByAddress = (address: string): IToken | undefined => {
   return poolList.find(
     (token) => token.address.toLowerCase() === normalizedAddress,
   );
+};
+
+export const INTEREST_RATE_STRATEGY: {
+  idrx: IInterestRateStrategy;
+  weth: IInterestRateStrategy;
+  eth: IInterestRateStrategy;
+  wbtc: IInterestRateStrategy;
+  usdc: IInterestRateStrategy;
+  usdt: IInterestRateStrategy;
+} = {
+  idrx: {
+    optimalUtilization: 0.8,
+    baseRate: 0.01,
+    slope1: 0.04,
+    slope2: 1,
+    reserveFactor: 0.15,
+  },
+  weth: {
+    optimalUtilization: 0.8,
+    baseRate: 0.01,
+    slope1: 0.04,
+    slope2: 0.8,
+    reserveFactor: 0.1,
+  },
+  eth: {
+    optimalUtilization: 0.8,
+    baseRate: 0.01,
+    slope1: 0.04,
+    slope2: 0.8,
+    reserveFactor: 0.1,
+  },
+  wbtc: {
+    optimalUtilization: 0.7,
+    baseRate: 0,
+    slope1: 0.04,
+    slope2: 3,
+    reserveFactor: 0.2,
+  },
+  usdc: {
+    optimalUtilization: 0.8,
+    baseRate: 0,
+    slope1: 0.125,
+    slope2: 0.6,
+    reserveFactor: 0.1,
+  },
+  usdt: {
+    optimalUtilization: 0.8,
+    baseRate: 0,
+    slope1: 0.125,
+    slope2: 0.6,
+    reserveFactor: 0.1,
+  },
 };

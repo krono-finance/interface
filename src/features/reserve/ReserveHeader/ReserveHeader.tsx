@@ -3,7 +3,7 @@ import React from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import BigNumber from "bignumber.js";
 
@@ -12,6 +12,7 @@ import useReserveMetrics from "@/hooks/useReserveMetrics";
 import { formatTokenValue } from "@/lib/utils";
 
 const ReserveHeader = () => {
+  const router = useRouter();
   const reserve = useReserveMetrics();
 
   if (!reserve) return null;
@@ -19,12 +20,11 @@ const ReserveHeader = () => {
   return (
     <div className="xs:my-12 my-8 space-y-6">
       <div className="flex items-center gap-3.5">
-        <Link href={"/markets"}>
-          <Button variant="secondary" className="gap-2.5">
-            <FaArrowLeftLong className="mt-0.5" />
-            Back
-          </Button>
-        </Link>
+        <Button variant="secondary" className="gap-2.5" onClick={router.back}>
+          <FaArrowLeftLong className="mt-0.5" />
+          Back
+        </Button>
+
         <div className="flex items-center gap-1.5">
           <Image
             src={"/logos/lisk-profile-w.svg"}

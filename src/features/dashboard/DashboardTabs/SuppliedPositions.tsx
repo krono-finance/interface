@@ -2,6 +2,7 @@
 import React from "react";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import BigNumber from "bignumber.js";
 import { useAccount } from "wagmi";
@@ -105,7 +106,10 @@ const SuppliedPositions = () => {
 
               return (
                 <div key={token.symbol} className="flex p-4">
-                  <div className="flex w-full max-w-30 min-w-17.5 items-center gap-2.5">
+                  <Link
+                    href={`/reserve/${token.address}`}
+                    className="flex w-full max-w-30 min-w-17.5 items-center gap-2.5"
+                  >
                     <Image
                       src={token.image}
                       alt={token.name}
@@ -114,7 +118,7 @@ const SuppliedPositions = () => {
                       className="size-8"
                     />
                     <span className="font-semibold">{token.symbol}</span>
-                  </div>
+                  </Link>
                   <div className="flex w-full min-w-17.5 items-center justify-center text-center">
                     <div>
                       <p>{formatTokenValue(tokenBalance)}</p>
@@ -133,18 +137,13 @@ const SuppliedPositions = () => {
                     <SwitchCustom checked={checked} onChange={() => {}} />
                   </div>
                   <div className="flex w-full max-w-40 min-w-40 items-center justify-end gap-2">
-                    {/* <Button
-                      variant="secondary"
-                      className="!px-3 !py-2"
-                      onClick={() => {
-                        openSupply();
-                        updateTokenData(token);
-                      }}
-                    >
-                      Supply
-                    </Button> */}
+                    <Link href={`/reserve/${token.address}`}>
+                      <Button variant="secondary" className="!px-3 !py-2">
+                        Supply
+                      </Button>
+                    </Link>
                     <Button
-                      variant="secondary"
+                      variant="tertiary"
                       className="w-full !px-3 !py-2"
                       onClick={() => {
                         openWithdraw();

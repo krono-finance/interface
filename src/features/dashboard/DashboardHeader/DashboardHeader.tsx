@@ -83,6 +83,7 @@ const DashboardHeader = () => {
               BigNumber(data.userAccountData.healthFactor.toString())
                 .div(10 ** 18)
                 .toFormat(2)}
+          {!data && "∞"}
         </p>
       ),
     },

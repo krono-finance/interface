@@ -92,3 +92,11 @@ export interface IUserReserveData {
   principalStableDebt: bigint;
   stableBorrowLastUpdateTimestamp: bigint;
 }
+
+export interface IInterestRateStrategy {
+  optimalUtilization: number;
+  baseRate: number;
+  slope1: number;
+  slope2: number;
+  reserveFactor: number;
+}
