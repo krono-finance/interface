@@ -36,13 +36,13 @@ const DashboardTabs = () => {
         ) : (
           <TabPanel
             as="div"
-            className="bg-surface border-elevated flex h-[500px] w-full items-center justify-center rounded-xl border"
+            className="bg-surface border-elevated flex h-[270px] w-full items-center justify-center rounded-xl border sm:h-[500px]"
           >
-            <div className="flex flex-col items-center gap-1">
-              <p className="text-2xl font-semibold">
+            <div className="flex flex-col items-center gap-1 text-center">
+              <p className="text-lg font-semibold sm:text-2xl">
                 Please, connect your wallet
               </p>
-              <p className="text-tertiary mb-2 font-medium">
+              <p className="text-tertiary mb-2 text-sm font-medium sm:text-base">
                 Connect your wallet to see your supplies, borrowings, and open
                 positions.
               </p>
