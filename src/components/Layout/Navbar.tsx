@@ -12,6 +12,7 @@ export const menus = [
   {
     name: "Dashboard",
     link: "/dashboard",
+    comingsoon: false,
   },
   {
     name: "Markets",
@@ -20,18 +21,22 @@ export const menus = [
   {
     name: "Strategies",
     link: "/strategies",
+    comingsoon: true,
   },
   {
     name: "Stake",
     link: "/stake",
+    comingsoon: true,
   },
   {
     name: "Swap",
     link: "/swap",
+    comingsoon: true,
   },
   {
     name: "Faucet",
     link: "/faucet",
+    comingsoon: false,
   },
 ];
 
@@ -55,19 +60,30 @@ const Navbar = () => {
           <ul className="flex items-center gap-1.5">
             {menus.map((menu) => (
               <li key={menu.name}>
-                <Link
-                  href={menu.link}
-                  className={classNames(
-                    "rounded-lg px-3.5 py-2.5 text-sm font-semibold",
-                    "hover:text-primary hover:bg-elevated",
-
-                    pathname.includes(menu.link)
-                      ? "!text-primary bg-elevated"
-                      : "text-tertiary",
-                  )}
-                >
-                  {menu.name}
-                </Link>
+                {menu.comingsoon ? (
+                  <span
+                    title="Coming Soon"
+                    className={classNames(
+                      "text-tertiary rounded-lg px-3.5 py-2.5 text-sm font-semibold",
+                      "cursor-not-allowed opacity-50",
+                    )}
+                  >
+                    {menu.name}
+                  </span>
+                ) : (
+                  <Link
+                    href={menu.link}
+                    className={classNames(
+                      "rounded-lg px-3.5 py-2.5 text-sm font-semibold",
+                      "hover:text-primary hover:bg-elevated",
+                      pathname.includes(menu.link)
+                        ? "!text-primary bg-elevated"
+                        : "text-tertiary",
+                    )}
+                  >
+                    {menu.name}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>

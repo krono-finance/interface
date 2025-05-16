@@ -68,19 +68,32 @@ const MobileNavbar = () => {
         </div>
 
         <div className="mt-8 flex flex-col space-y-3">
-          {menus.map((menu) => (
-            <Link
-              key={menu.name}
-              href={menu.link}
-              className={classNames(
-                "-mx-4 rounded-md px-4 py-2 text-xl font-semibold",
-                pathname === menu.link ? "text-primary" : "text-tertiary",
-              )}
-              onClick={() => setOpen(false)}
-            >
-              {menu.name}
-            </Link>
-          ))}
+          {menus.map((menu) =>
+            menu.comingsoon ? (
+              <span
+                key={menu.name}
+                title="Coming Soon"
+                className={classNames(
+                  "text-tertiary -mx-4 flex justify-between rounded-md px-4 py-2 text-xl font-semibold",
+                  "cursor-not-allowed opacity-50",
+                )}
+              >
+                {menu.name} <span className="text-sm">(Coming Soon)</span>
+              </span>
+            ) : (
+              <Link
+                key={menu.name}
+                href={menu.link}
+                className={classNames(
+                  "-mx-4 rounded-md px-4 py-2 text-xl font-semibold",
+                  pathname === menu.link ? "text-primary" : "text-tertiary",
+                )}
+                onClick={() => setOpen(false)}
+              >
+                {menu.name}
+              </Link>
+            ),
+          )}
         </div>
       </Drawer>
     </nav>
