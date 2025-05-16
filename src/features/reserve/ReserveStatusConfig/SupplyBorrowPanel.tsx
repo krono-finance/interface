@@ -34,6 +34,14 @@ const SupplyBorrowPanel = () => {
   const { writeContractAsync } = useWriteContract();
 
   const token = useRootStore((state) => state.tokenData);
+  const tokensPrice = useRootStore((state) => state.tokensPrice);
+
+  const tokenPrice = useMemo(() => {
+    const price = tokensPrice.find(
+      (item) => item.symbol.toLowerCase() === token.symbol.toLowerCase(),
+    );
+    return price?.price || 0;
+  }, [tokensPrice, token.symbol]);
 
   const { data: ethBalance } = useBalance({
     address,
@@ -69,6 +77,8 @@ const SupplyBorrowPanel = () => {
 
   const { displayValue, value, handleInputBlur, handleInputChange } =
     useNumberInput();
+
+  const totalTokenUSDValue = BigNumber(tokenPrice).times(value);
 
   const handleSupply = async () => {
     if (!walletClient || !address) return;
@@ -315,13 +325,14 @@ const SupplyBorrowPanel = () => {
             inputClassName="font-medium xl:text-xl sm:max-w-[240px]"
           />
           <div className="text-tertiary flex justify-between gap-3 p-3 text-sm font-medium sm:p-4">
-            <span>$0</span>
+            <span>${formatTokenValue(totalTokenUSDValue)}</span>
             <span>
-              {selectedAction === "Supply" ? (
+              {/* {selectedAction === "Supply" ? (
                 <>Wallet balance: {formatTokenValue(BigNumber(balance))}</>
               ) : (
                 <>Available: 0</>
-              )}
+              )} */}
+              Wallet balance: {formatTokenValue(BigNumber(balance))}
             </span>
           </div>
         </div>
