@@ -51,7 +51,7 @@ const generateInterestRateModelData = ({
 
     // Format and add data point
     data.push({
-      utilization: (utilization * 100).toFixed(1),
+      utilization: (utilization * 100).toFixed(2),
       borrowRate: parseFloat((borrowRate * 100).toFixed(2)),
       supplyRate: parseFloat((supplyRate * 100).toFixed(2)),
     });
@@ -71,6 +71,7 @@ export default function InterestRateChart() {
     ];
 
   const currentUtilization = reserve.utilization;
+
   const { optimalUtilization, baseRate, slope1, slope2, reserveFactor } =
     interesetRateStrategy;
 
@@ -103,7 +104,7 @@ export default function InterestRateChart() {
             dataKey="utilization"
             stroke="#7f8fa1"
             tickFormatter={(tick) => `${tick}%`}
-            ticks={["0.0", "25.0", "50.0", "75.0", "100.0"]}
+            ticks={["0.00", "25.00", "50.00", "75.00", "100.00"]}
             dy={10}
             tick={{ fontSize: 12 }}
             label={{
@@ -168,26 +169,28 @@ export default function InterestRateChart() {
 
           {/* Reference Lines */}
           <ReferenceLine
-            x={(optimalUtilization * 100).toFixed(1)}
+            x={(optimalUtilization * 100).toFixed(2)}
             stroke="#fcd94c" // text-warning
             label={{
               position: "top",
-              value: `Optimal ${optimalUtilization * 100}%`,
+              value: `Optimal (${optimalUtilization * 100}%)`,
               fill: "#fcd94c",
               fontSize: 14,
-              offset: -10,
+              dx: -52,
+              dy: 10,
             }}
             strokeDasharray="3 3"
           />
           <ReferenceLine
-            x={currentUtilization}
+            x={Math.round(Number(reserve.utilization)).toFixed(2)}
             stroke="#67a8ff"
             label={{
               position: "top",
-              value: `Current ${currentUtilization}%`,
+              value: `Current (${currentUtilization}%)`,
               fill: "#67a8ff",
               fontSize: 14,
-              offset: -40,
+              dx: -50,
+              dy: 30,
             }}
             strokeDasharray="4 2"
           />
