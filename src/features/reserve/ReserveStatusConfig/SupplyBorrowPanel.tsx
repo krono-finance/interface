@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 
 import Image from "next/image";
@@ -45,10 +45,14 @@ const SupplyBorrowPanel = () => {
   });
 
   const selectedBalance = token.symbol === "ETH" ? ethBalance : tokenBalance;
-  const balance = BigNumber(selectedBalance?.value || "0")
-    .div(10 ** token.decimals)
-    .toFormat()
-    .toString();
+
+  const balance = useMemo(
+    () =>
+      BigNumber(selectedBalance?.value || "0")
+        .div(10 ** token.decimals)
+        .toString(),
+    [selectedBalance?.value, token.decimals],
+  );
 
   const [selectedAction, setSelectedAction] = useState<"Supply" | "Borrow">(
     "Supply",
