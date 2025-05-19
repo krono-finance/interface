@@ -1,17 +1,21 @@
 "use client";
 import React from "react";
+import toast from "react-hot-toast";
 
 import Image from "next/image";
 import Link from "next/link";
 
 import BigNumber from "bignumber.js";
-import { useAccount } from "wagmi";
+import { Address } from "viem";
+import { waitForTransactionReceipt } from "viem/actions";
+import { useAccount, useWalletClient } from "wagmi";
 import { useShallow } from "zustand/shallow";
 
 import Button from "@/components/Button/Button";
 import SwitchCustom from "@/components/Switch/SwitchCustom";
 import { poolList } from "@/constant/poolTokenData";
 import useUserData from "@/hooks/useUserData";
+import { updateUserUseReserveAsCollateralService } from "@/lib/services/lendingPoolService";
 import { formatTokenValue } from "@/lib/utils";
 import { useRootStore } from "@/store/root";
 
@@ -25,8 +29,45 @@ const SuppliedPositions = () => {
   );
   const updateTokenData = useRootStore((state) => state.updateTokenData);
   const { address } = useAccount();
+  const { data: walletClient } = useWalletClient();
 
   const { data, isSuccess } = useUserData(address);
+
+  const [pending, setPending] = React.useState<Record<string, boolean>>({});
+
+  const toggleCollateral = async (asset: Address, enabled: boolean) => {
+    if (!walletClient || !address) return;
+
+    setPending((p) => ({ ...p, [asset]: enabled }));
+
+    const txtoast = toast.loading(`Signing transaction...`);
+
+    try {
+      const tx = await updateUserUseReserveAsCollateralService(
+        asset,
+        enabled,
+        walletClient,
+        address,
+      );
+
+      await waitForTransactionReceipt(walletClient, {
+        hash: tx as `0x${string}`,
+      });
+
+      toast.success("Transaction confirmed!");
+      console.log(tx);
+    } catch (error) {
+      toast.error("Transaction failed!");
+      setPending((p) => {
+        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+        const { [asset]: _, ...rest } = p;
+        return rest;
+      });
+      console.error(error);
+    } finally {
+      toast.dismiss(txtoast);
+    }
+  };
 
   return (
     <div className="border-elevated h-fit overflow-hidden rounded-xl border">
@@ -87,7 +128,8 @@ const SuppliedPositions = () => {
 
               if (!token || !reserve) return null;
 
-              const checked = supply.usageAsCollateralEnabledOnUser;
+              const checked =
+                pending[token.address] ?? supply.usageAsCollateralEnabledOnUser;
 
               const tokenBalance = BigNumber(supply.scaledATokenBalance).div(
                 10 ** token.decimals,
@@ -134,7 +176,15 @@ const SuppliedPositions = () => {
                       </p>
                     </div>
                     <div className="flex w-full min-w-17.5 items-center justify-center text-center">
-                      <SwitchCustom checked={checked} onChange={() => {}} />
+                      <SwitchCustom
+                        checked={checked}
+                        onChange={async () => {
+                          await toggleCollateral(
+                            token.address as Address,
+                            !checked,
+                          );
+                        }}
+                      />
                     </div>
                     <div className="flex w-full max-w-40 min-w-40 items-center justify-end gap-2">
                       <Link href={`/reserve/${token.address}`}>
@@ -198,7 +248,15 @@ const SuppliedPositions = () => {
                         <span className="text-secondary text-sm">
                           Used as collateral
                         </span>
-                        <SwitchCustom checked={checked} onChange={() => {}} />
+                        <SwitchCustom
+                          checked={checked}
+                          onChange={async () => {
+                            await toggleCollateral(
+                              token.address as Address,
+                              !checked,
+                            );
+                          }}
+                        />
                       </div>
                     </div>
 
