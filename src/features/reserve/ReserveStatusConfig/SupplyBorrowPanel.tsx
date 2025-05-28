@@ -18,6 +18,7 @@ import {
 import Button from "@/components/Button/Button";
 import NumberInput from "@/components/Input/NumberInput";
 import SwitchCustom from "@/components/Switch/SwitchCustom";
+import CustomConnectButton from "@/components/Web3Provider/CustomConnectButton";
 import { LENDING_POOL_CONTRACT_ADDRESS } from "@/constant/contractAddresses";
 import useNumberInput from "@/hooks/useNumberInput";
 import useReserveMetrics from "@/hooks/useReserveMetrics";
@@ -128,6 +129,27 @@ const SupplyBorrowPanel = () => {
     );
     return hf.isFinite() ? hf : BigNumber(Infinity);
   }, [userData]);
+
+  const validationMessage = useMemo(() => {
+    if (!address) return null;
+
+    const inputAmount = BigNumber(value || "0");
+    const walletBal = BigNumber(balance || "0");
+
+    if (inputAmount.isZero() || inputAmount.isNegative()) {
+      return "Enter a valid amount";
+    }
+
+    if (inputAmount.gt(walletBal) && selectedAction === "Supply") {
+      return "Insufficient balance";
+    }
+
+    if (selectedAction === "Borrow" && futureHealthFactor?.lt(1.01)) {
+      return "Health factor too low";
+    }
+
+    return null;
+  }, [address, value, balance, selectedAction, futureHealthFactor]);
 
   if (!metrics) return null;
 
@@ -431,25 +453,29 @@ const SupplyBorrowPanel = () => {
         </div>
       </div>
 
-      <Button
-        className="w-full !py-3 !text-base"
-        disabled={value <= 0 || isTransacting}
-        onClick={() => {
-          if (selectedAction === "Borrow") {
-            return handleBorrow();
-          } else if (selectedAction === "Supply") {
-            return token.symbol === "ETH" ? handleSupplyETH() : handleSupply();
-          }
-        }}
-      >
-        {value > 0 ? (
-          <>
-            {selectedAction} {token.symbol}
-          </>
-        ) : (
-          "Enter an amount"
-        )}
-      </Button>
+      {!address ? (
+        <CustomConnectButton className="w-full !py-3 !text-base" />
+      ) : (
+        <>
+          <Button
+            className="w-full !py-3 !text-base"
+            disabled={!!validationMessage || isTransacting}
+            onClick={() => {
+              if (selectedAction === "Borrow") {
+                return handleBorrow();
+              } else if (selectedAction === "Supply") {
+                return token.symbol === "ETH"
+                  ? handleSupplyETH()
+                  : handleSupply();
+              }
+            }}
+          >
+            {!validationMessage
+              ? `${selectedAction} ${token.symbol}`
+              : validationMessage}
+          </Button>
+        </>
+      )}
     </div>
   );
 };
