@@ -20,6 +20,8 @@ import NumberInput from "@/components/Input/NumberInput";
 import SwitchCustom from "@/components/Switch/SwitchCustom";
 import { LENDING_POOL_CONTRACT_ADDRESS } from "@/constant/contractAddresses";
 import useNumberInput from "@/hooks/useNumberInput";
+import useReserveMetrics from "@/hooks/useReserveMetrics";
+import useUserData from "@/hooks/useUserData";
 import {
   borrowService,
   supplyEthService,
@@ -32,6 +34,9 @@ const SupplyBorrowPanel = () => {
   const { data: walletClient } = useWalletClient();
   const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
+  const metrics = useReserveMetrics();
+
+  const { data: userData } = useUserData(address);
 
   const token = useRootStore((state) => state.tokenData);
   const tokensPrice = useRootStore((state) => state.tokensPrice);
@@ -76,9 +81,57 @@ const SupplyBorrowPanel = () => {
   });
 
   const { displayValue, value, handleInputBlur, handleInputChange } =
-    useNumberInput();
+    useNumberInput(0, Number(balance));
 
   const totalTokenUSDValue = BigNumber(tokenPrice).times(value);
+
+  const futureHealthFactor = useMemo(() => {
+    if (!userData || !tokenPrice || !value) return null;
+
+    const totalCollateral = new BigNumber(
+      userData.userAccountData.totalCollateralETH.toString(),
+    ).div(1e18);
+    const totalDebt = new BigNumber(
+      userData.userAccountData.totalDebtETH.toString(),
+    ).div(1e18);
+    const liquidationThreshold = new BigNumber(
+      userData.userAccountData.currentLiquidationThreshold.toString(),
+    ).div(1e4);
+
+    const valueInETH = new BigNumber(value).times(tokenPrice);
+
+    const newCollateral =
+      selectedAction === "Supply"
+        ? totalCollateral.plus(valueInETH)
+        : totalCollateral;
+    const newDebt =
+      selectedAction === "Borrow" ? totalDebt.plus(valueInETH) : totalDebt;
+
+    if (newDebt.isZero()) return BigNumber(Infinity);
+
+    return newCollateral.times(liquidationThreshold).div(newDebt);
+  }, [userData, value, selectedAction, tokenPrice]);
+
+  const healthFactorClass = useMemo(() => {
+    if (!futureHealthFactor) return "text-tertiary";
+    if (!futureHealthFactor.isFinite()) return "text-success";
+    if (futureHealthFactor.gt(1.5)) return "text-success";
+    if (futureHealthFactor.gt(1.0)) return "text-warning";
+    return "text-error";
+  }, [futureHealthFactor]);
+
+  const currentHealthFactor = useMemo(() => {
+    if (!userData || !userData.userAccountData.healthFactor) return null;
+
+    const hf = BigNumber(userData.userAccountData.healthFactor.toString()).div(
+      1e18,
+    );
+    return hf.isFinite() ? hf : BigNumber(Infinity);
+  }, [userData]);
+
+  if (!metrics) return null;
+
+  const { supplyAPY, borrowAPY } = metrics;
 
   const handleSupply = async () => {
     if (!walletClient || !address) return;
@@ -357,11 +410,19 @@ const SupplyBorrowPanel = () => {
         <div className="border-elevated space-y-3 rounded-xl border p-4">
           <div className="flex items-center justify-between gap-3 text-sm">
             <span className="text-tertiary">{selectedAction} APY</span>
-            <span>4.50%</span>
+            <span>{selectedAction === "Supply" ? supplyAPY : borrowAPY}%</span>
           </div>
           <div className="flex items-center justify-between gap-3 text-sm">
             <span className="text-tertiary">Health factor</span>
-            <span className="text-warning">2.5</span>
+            <span className={healthFactorClass}>
+              {currentHealthFactor && futureHealthFactor
+                ? `${currentHealthFactor.isFinite() ? currentHealthFactor.toFixed(2) : "∞"} → ${
+                    futureHealthFactor.isFinite()
+                      ? futureHealthFactor.toFixed(2)
+                      : "∞"
+                  }`
+                : "-"}
+            </span>
           </div>
           <div className="flex items-center justify-between gap-3 text-sm">
             <span className="text-tertiary">Estimated gas fee</span>
