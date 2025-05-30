@@ -87,6 +87,16 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
                 key={percentage}
                 variant="secondary"
                 className="!px-2.5 !py-0.5"
+                onClick={() => {
+                  const availableAmount = parseFloat(available);
+                  if (!isNaN(availableAmount)) {
+                    const calculatedValue = (
+                      (percentage / 100) *
+                      availableAmount
+                    ).toString();
+                    handleInputChange(calculatedValue);
+                  }
+                }}
               >
                 {percentage}%
               </Button>
