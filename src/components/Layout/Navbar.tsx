@@ -18,21 +18,21 @@ export const menus = [
     name: "Markets",
     link: "/markets",
   },
-  {
-    name: "Strategies",
-    link: "/strategies",
-    comingsoon: true,
-  },
-  {
-    name: "Stake",
-    link: "/stake",
-    comingsoon: true,
-  },
-  {
-    name: "Swap",
-    link: "/swap",
-    comingsoon: true,
-  },
+  // {
+  //   name: "Strategies",
+  //   link: "/strategies",
+  //   comingsoon: true,
+  // },
+  // {
+  //   name: "Stake",
+  //   link: "/stake",
+  //   comingsoon: true,
+  // },
+  // {
+  //   name: "Swap",
+  //   link: "/swap",
+  //   comingsoon: true,
+  // },
   {
     name: "Faucet",
     link: "/faucet",
