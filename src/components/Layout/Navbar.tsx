@@ -33,11 +33,11 @@ export const menus = [
   //   link: "/swap",
   //   comingsoon: true,
   // },
-  // {
-  //   name: "Faucet",
-  //   link: "/faucet",
-  //   comingsoon: false,
-  // },
+  {
+    name: "Faucet",
+    link: "/faucet",
+    comingsoon: false,
+  },
 ];
 
 const Navbar = () => {

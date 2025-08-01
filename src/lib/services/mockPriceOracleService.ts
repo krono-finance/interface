@@ -1,20 +1,22 @@
-import { MAINNET_CONTRACT } from "@/constant/contractAddresses";
+import { MOCK_PRICE_ORACLE_CONTRACT_ADDRESS } from "@/constant/contractAddresses";
 import { POOL_TOKENS } from "@/constant/poolTokenData";
-import PRICE_ORACLE_ABI from "@/lib/abi/PriceOracleABI.json";
+import MOCK_PRICE_ORACLE_ABI from "@/lib/abi/MockPriceOracleABI.json";
 
 import { publicClient } from "./common";
 
 export const getAssetsPrices = async () => {
   try {
     return (await publicClient.readContract({
-      address: MAINNET_CONTRACT.PRICE_ORACLE_CONTRACT_ADDRESS as `0x${string}`,
-      abi: PRICE_ORACLE_ABI,
+      address: MOCK_PRICE_ORACLE_CONTRACT_ADDRESS,
+      abi: MOCK_PRICE_ORACLE_ABI,
       functionName: "getAssetsPrices",
       args: [
         [
           POOL_TOKENS.weth.address,
           POOL_TOKENS.idrx.address,
+          POOL_TOKENS.wbtc.address,
           POOL_TOKENS.usdc.address,
+          POOL_TOKENS.usdt.address,
         ],
       ],
     })) as bigint[];

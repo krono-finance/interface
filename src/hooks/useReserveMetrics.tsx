@@ -21,7 +21,7 @@ interface ReserveMetrics {
 }
 
 const useReserveMetrics = (
-  ethPrice: string = "4576",
+  ethPrice: string = "2600",
 ): ReserveMetrics | undefined => {
   const [tokenData, tokensPrice, reservesData] = useRootStore(
     useShallow((state) => [

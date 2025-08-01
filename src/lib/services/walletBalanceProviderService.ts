@@ -1,13 +1,10 @@
 import { Address, parseAbi } from "viem";
 
 import { NATIVE_ETH } from "@/constant";
-import { MAINNET_CONTRACT } from "@/constant/contractAddresses";
+import { WALLET_BALANCE_CONTRACT_ADDRESS } from "@/constant/contractAddresses";
 import WALLET_BALANCE_PROVIDER_ABI from "@/lib/abi/WalletBalanceProviderABI.json";
 
 import { publicClient } from "./common";
-
-const WALLET_BALANCE_CONTRACT_ADDRESS =
-  MAINNET_CONTRACT.WALLET_BALANCE_CONTRACT_ADDRESS as `0x${string}`;
 
 export const balanceOf = async (user: Address, token: Address) => {
   try {

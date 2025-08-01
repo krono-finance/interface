@@ -27,7 +27,7 @@ const AppInitializer = () => {
     if (!pricesInEth || pricesInEth.length !== poolList.length) return;
 
     const WEI_IN_ETH = new BigNumber(10 ** 18);
-    const ethPriceBN = new BigNumber(4576);
+    const ethPriceBN = new BigNumber(2600);
 
     const formatted: ITokenPrice[] = pricesInEth.map((priceBigInt, index) => {
       const token = poolList[index];

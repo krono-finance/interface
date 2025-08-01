@@ -1,7 +1,7 @@
 import { Address, WalletClient } from "viem";
 
 import { KRONO_FAUCETS_CONTRACT_ADDRESS } from "@/constant/contractAddresses";
-import { TESTNET_POOL_TOKENS } from "@/constant/poolTokenData";
+import { POOL_TOKENS } from "@/constant/poolTokenData";
 import KRONO_FAUCETS_ABI from "@/lib/abi/KronoFaucetsABI.json";
 
 import { publicClient } from "./common";
@@ -12,10 +12,10 @@ export const batchClaimFaucets = async (
 ) => {
   try {
     const tokens = [
-      TESTNET_POOL_TOKENS.idrx.address,
-      TESTNET_POOL_TOKENS.wbtc.address,
-      TESTNET_POOL_TOKENS.usdc.address,
-      TESTNET_POOL_TOKENS.usdt.address,
+      POOL_TOKENS.idrx.address,
+      POOL_TOKENS.wbtc.address,
+      POOL_TOKENS.usdc.address,
+      POOL_TOKENS.usdt.address,
     ];
 
     const { request } = await publicClient.simulateContract({

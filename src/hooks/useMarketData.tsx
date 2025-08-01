@@ -22,7 +22,7 @@ interface ReserveMetrics {
 const useMarketData = (
   reserve: IReserve,
   tokenPrice: string | undefined,
-  ethPrice: string = "4576",
+  ethPrice: string = "2600",
 ): ReserveMetrics => {
   const tokenData = useRootStore((state) => state.tokenData);
 

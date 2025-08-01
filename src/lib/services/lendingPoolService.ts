@@ -1,16 +1,14 @@
 import { Address, WalletClient } from "viem";
 
-import { MAINNET_CONTRACT } from "@/constant/contractAddresses";
+import {
+  LENDING_POOL_CONTRACT_ADDRESS,
+  WETH_GATEWAY_CONTRACT_ADDRESS,
+} from "@/constant/contractAddresses";
 import LENDING_POOL_ABI from "@/lib/abi/LendingPoolABI.json";
 import WETH_GATEWAY_ABI from "@/lib/abi/WETHGatewayABI.json";
 import { IUserAccountData } from "@/types";
 
 import { publicClient } from "./common";
-
-const LENDING_POOL_CONTRACT_ADDRESS =
-  MAINNET_CONTRACT.LENDING_POOL_CONTRACT_ADDRESS as `0x${string}`;
-const WETH_GATEWAY_CONTRACT_ADDRESS =
-  MAINNET_CONTRACT.WETH_GATEWAY_CONTRACT_ADDRESS as `0x${string}`;
 
 export const supplyService = async (
   asset: Address,
