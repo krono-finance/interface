@@ -1,5 +1,5 @@
 import { defaultConfig } from "@xellar/kit";
-import { liskSepolia } from "viem/chains";
+import { lisk } from "viem/chains";
 import { Config } from "wagmi";
 
 import { PROJECT_ID, XELLAR_APP_ID } from "@/constant";
@@ -10,7 +10,7 @@ const xellarConfig = defaultConfig({
   xellarAppId: XELLAR_APP_ID,
   xellarEnv: "sandbox",
   ssr: true,
-  chains: [liskSepolia],
+  chains: [lisk],
 }) as Config;
 
 export default xellarConfig;

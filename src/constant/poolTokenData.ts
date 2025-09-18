@@ -3,6 +3,126 @@ import { IInterestRateStrategy, IToken } from "@/types";
 export const POOL_TOKENS: {
   idrx: IToken;
   weth: IToken;
+  usdc: IToken;
+} = {
+  weth: {
+    name: "Ethereum",
+    symbol: "ETH",
+    image: "/tokens/eth.svg",
+    decimals: 18,
+    address: "0x4200000000000000000000000000000000000006",
+    kTokenName: "Krono Lisk WETH",
+    kTokenSymbol: "kLiskWETH",
+    kTokenAddress: "0xd1FeF4363d163019Ff0D19D0234da2e2dfB80faD",
+    stableDebtTokenName: "Krono Lisk Stable Debt WETH",
+    stableDebtTokenSymbol: "stableDebtLiskWETH",
+    stableDebtTokenAddress: "0x34Bb8958d3154672d073F5990C856407972FCe89",
+    variableDebtTokenName: "Krono Lisk Variable Debt WETH",
+    variableDebtTokenSymbol: "variableDebtLiskWETH",
+    variableDebtTokenAddress: "0x076fF9016E1dEc4fE3Dc4dB63114DcC8d6d8208e",
+    interestRateStrategyAddress: "0xF9889cf9C371CCcca3AaD8dDb17d88E378F26b05",
+  },
+  idrx: {
+    name: "IDRX",
+    symbol: "IDRX",
+    image: "/tokens/idrx.svg",
+    decimals: 2,
+    address: "0x18Bc5bcC660cf2B9cE3cd51a404aFe1a0cBD3C22",
+    kTokenName: "Krono Lisk IDRX",
+    kTokenSymbol: "kLiskIDRX",
+    kTokenAddress: "0xA21cb53fC7C159011C5416b646AB932673326bC4",
+    stableDebtTokenName: "Krono Lisk Stable Debt IDRX",
+    stableDebtTokenSymbol: "stableDebtLiskIDRX",
+    stableDebtTokenAddress: "0x7d1450dff861d59F51b2B53260efA03b143B174E",
+    variableDebtTokenName: "Krono Lisk Variable Debt IDRX",
+    variableDebtTokenSymbol: "variableDebtLiskIDRX",
+    variableDebtTokenAddress: "0x87af4B1bff4699D7C6edcAD3c02EECA76f29668E",
+    interestRateStrategyAddress: "0x1F4D06Cb9991Bf87e71AB8B4e22e063296e3b8A8",
+  },
+
+  usdc: {
+    name: "USD Coin",
+    symbol: "USDC",
+    image: "/tokens/usdc.svg",
+    decimals: 6,
+    address: "0xF242275d3a6527d877f2c927a82D9b057609cc71",
+    kTokenName: "Krono Lisk USDC",
+    kTokenSymbol: "kLiskUSDC",
+    kTokenAddress: "0x79482Ee00E70E440c072a43dd653AACFaa5867B8",
+    stableDebtTokenName: "Krono Lisk Stable Debt USDC",
+    stableDebtTokenSymbol: "stableDebtLiskUSDC",
+    stableDebtTokenAddress: "0x6f6B6f2bC90C603B53C771363e62768FCDeAAf2B",
+    variableDebtTokenName: "Krono Lisk Variable Debt USDC",
+    variableDebtTokenSymbol: "variableDebtLiskUSDC",
+    variableDebtTokenAddress: "0x0b8fcEe653cAc56611CfD8B7CDD6331718511a14",
+    interestRateStrategyAddress: "0x5ee199851e21B321F079288d648E885eCDBb1427",
+  },
+};
+
+export const poolList = Object.values(POOL_TOKENS);
+
+export const getTokenByAddress = (address: string): IToken | undefined => {
+  const normalizedAddress = address.toLowerCase();
+  return poolList.find(
+    (token) => token.address.toLowerCase() === normalizedAddress,
+  );
+};
+
+export const INTEREST_RATE_STRATEGY: {
+  idrx: IInterestRateStrategy;
+  weth: IInterestRateStrategy;
+  eth: IInterestRateStrategy;
+  wbtc: IInterestRateStrategy;
+  usdc: IInterestRateStrategy;
+  usdt: IInterestRateStrategy;
+} = {
+  idrx: {
+    optimalUtilization: 0.8,
+    baseRate: 0.01,
+    slope1: 0.04,
+    slope2: 1,
+    reserveFactor: 0.15,
+  },
+  weth: {
+    optimalUtilization: 0.8,
+    baseRate: 0.01,
+    slope1: 0.04,
+    slope2: 0.8,
+    reserveFactor: 0.1,
+  },
+  eth: {
+    optimalUtilization: 0.8,
+    baseRate: 0.01,
+    slope1: 0.04,
+    slope2: 0.8,
+    reserveFactor: 0.1,
+  },
+  wbtc: {
+    optimalUtilization: 0.7,
+    baseRate: 0,
+    slope1: 0.04,
+    slope2: 3,
+    reserveFactor: 0.2,
+  },
+  usdc: {
+    optimalUtilization: 0.8,
+    baseRate: 0,
+    slope1: 0.125,
+    slope2: 0.6,
+    reserveFactor: 0.1,
+  },
+  usdt: {
+    optimalUtilization: 0.8,
+    baseRate: 0,
+    slope1: 0.125,
+    slope2: 0.6,
+    reserveFactor: 0.1,
+  },
+};
+
+export const TESTNET_POOL_TOKENS: {
+  idrx: IToken;
+  weth: IToken;
   wbtc: IToken;
   usdc: IToken;
   usdt: IToken;
@@ -91,66 +211,5 @@ export const POOL_TOKENS: {
     variableDebtTokenSymbol: "variableDebtLiskUSDT",
     variableDebtTokenAddress: "0x5af439cA0CFd08139b2B3C3981f496374Bb065FB",
     interestRateStrategyAddress: "0xa279884F378a0Bab98Fc00Da57d2Acd56a068119",
-  },
-};
-
-export const poolList = Object.values(POOL_TOKENS);
-
-export const getTokenByAddress = (address: string): IToken | undefined => {
-  const normalizedAddress = address.toLowerCase();
-  return poolList.find(
-    (token) => token.address.toLowerCase() === normalizedAddress,
-  );
-};
-
-export const INTEREST_RATE_STRATEGY: {
-  idrx: IInterestRateStrategy;
-  weth: IInterestRateStrategy;
-  eth: IInterestRateStrategy;
-  wbtc: IInterestRateStrategy;
-  usdc: IInterestRateStrategy;
-  usdt: IInterestRateStrategy;
-} = {
-  idrx: {
-    optimalUtilization: 0.8,
-    baseRate: 0.01,
-    slope1: 0.04,
-    slope2: 1,
-    reserveFactor: 0.15,
-  },
-  weth: {
-    optimalUtilization: 0.8,
-    baseRate: 0.01,
-    slope1: 0.04,
-    slope2: 0.8,
-    reserveFactor: 0.1,
-  },
-  eth: {
-    optimalUtilization: 0.8,
-    baseRate: 0.01,
-    slope1: 0.04,
-    slope2: 0.8,
-    reserveFactor: 0.1,
-  },
-  wbtc: {
-    optimalUtilization: 0.7,
-    baseRate: 0,
-    slope1: 0.04,
-    slope2: 3,
-    reserveFactor: 0.2,
-  },
-  usdc: {
-    optimalUtilization: 0.8,
-    baseRate: 0,
-    slope1: 0.125,
-    slope2: 0.6,
-    reserveFactor: 0.1,
-  },
-  usdt: {
-    optimalUtilization: 0.8,
-    baseRate: 0,
-    slope1: 0.125,
-    slope2: 0.6,
-    reserveFactor: 0.1,
   },
 };

@@ -2,7 +2,7 @@
   {
     "inputs": [
       {
-        "internalType": "contract PriceOracle",
+        "internalType": "contract MockPriceOracle",
         "name": "_oracle",
         "type": "address"
       }
@@ -12,7 +12,7 @@
   },
   {
     "inputs": [],
-    "name": "USDC_ADDRESS",
+    "name": "MOCK_USDC_ADDRESS",
     "outputs": [
       {
         "internalType": "address",
@@ -537,7 +537,7 @@
     "name": "oracle",
     "outputs": [
       {
-        "internalType": "contract PriceOracle",
+        "internalType": "contract MockPriceOracle",
         "name": "",
         "type": "address"
       }

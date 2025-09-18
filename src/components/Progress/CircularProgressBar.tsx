@@ -61,7 +61,7 @@ const CircularProgressBar = ({
           cx={size / 2}
           cy={size / 2}
           strokeDasharray={circumference}
-          strokeDashoffset={offset}
+          strokeDashoffset={offset || 0}
           strokeLinecap="square"
         />
       </svg>
@@ -71,7 +71,7 @@ const CircularProgressBar = ({
           className="absolute inset-0 flex items-center justify-center font-medium"
           style={{ color: progressColor, fontSize: textSize }}
         >
-          {percentage.toFixed(2)}%
+          {percentage > 0 ? percentage.toFixed(2) : 0}%
         </div>
       )}
     </div>

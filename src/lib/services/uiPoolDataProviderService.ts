@@ -1,13 +1,15 @@
 import { Address } from "viem";
 
-import {
-  LENDING_POOL_ADDRESSES_PROVIDER_CONTRACT_ADDRESS,
-  UI_POOL_DATA_CONTRACT_ADDRESS,
-} from "@/constant/contractAddresses";
+import { MAINNET_CONTRACT } from "@/constant/contractAddresses";
 import UI_POOL_DATA_ABI from "@/lib/abi/UiPoolDataProviderABI.json";
 import { IReserve, IUserReserveData } from "@/types";
 
 import { publicClient } from "./common";
+
+const LENDING_POOL_ADDRESSES_PROVIDER_CONTRACT_ADDRESS =
+  MAINNET_CONTRACT.LENDING_POOL_ADDRESSES_PROVIDER_CONTRACT_ADDRESS as `0x${string}`;
+const UI_POOL_DATA_CONTRACT_ADDRESS =
+  MAINNET_CONTRACT.UI_POOL_DATA_CONTRACT_ADDRESS as `0x${string}`;
 
 export const getReservesData = async () => {
   try {
