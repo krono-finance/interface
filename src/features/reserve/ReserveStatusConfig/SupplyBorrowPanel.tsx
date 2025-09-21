@@ -99,7 +99,13 @@ const SupplyBorrowPanel = () => {
       userData.userAccountData.currentLiquidationThreshold.toString(),
     ).div(1e4);
 
-    const valueInETH = new BigNumber(value).times(tokenPrice);
+    const ethPriceUSD =
+      tokensPrice.find((item) => item.symbol.toLowerCase() === "eth")?.price ||
+      0;
+
+    const valueInETH = ethPriceUSD
+      ? new BigNumber(value).times(tokenPrice).div(ethPriceUSD)
+      : new BigNumber(0);
 
     const newCollateral =
       selectedAction === "Supply"
